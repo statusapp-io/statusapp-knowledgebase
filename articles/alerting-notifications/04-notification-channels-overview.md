@@ -283,5 +283,5 @@ Keep a reference of:
 - **[Email Notifications](/help/knowledge-base/email-notifications)** - Set up email alerts
 - **[Slack Integration](/help/knowledge-base/slack-notifications)** - Connect Slack
 - **[PagerDuty Integration](/help/knowledge-base/pagerduty-integration)** - On-call management
-- **[Incident Management](/help/knowledge-base/incident-management-basics)** - Handle incidents when they occur
+- **[Incident Management](/help/knowledge-base/incident-lifecycle)** - Handle incidents when they occur
 - **[Team Collaboration](/help/knowledge-base/team-collaboration)** - Coordinate with your team

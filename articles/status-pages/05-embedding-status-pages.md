@@ -626,4 +626,4 @@ Embedding available on:
 
 - **[Creating Status Pages](/help/knowledge-base/creating-status-pages)** - Set up your status page
 - **[Custom Domains](/help/knowledge-base/custom-domains)** - Use your own domain
-- **[Incidents](/help/knowledge-base/incident-management-basics)** - Manage status page incidents
+- **[Incidents](/help/knowledge-base/incident-lifecycle)** - Manage status page incidents

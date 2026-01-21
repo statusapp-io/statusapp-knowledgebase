@@ -234,7 +234,7 @@ Now that you've set up your first monitor, explore these guides to get the most 
 - **[Setting Up Notifications](/help/knowledge-base/notification-channels-overview)** - Configure advanced notification channels and alert routing
 - **[Understanding Analytics](/help/knowledge-base/understanding-analytics)** - Interpret uptime metrics and performance trends
 - **[API Reference Guide](/help/knowledge-base/api-reference-guide)** - Access StatusApp programmatically via our REST API
-- **[Understanding Billing Plans](/help/knowledge-base/understanding-billing-plans)** - Learn about plans, features, and pricing
+- **[Understanding Billing Plans](/help/knowledge-base/billing-plans-comparison)** - Learn about plans, features, and pricing
 
 ## Need Help?
 
