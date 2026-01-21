@@ -35,86 +35,56 @@ StatusApp supports role-based access control allowing you to invite team members
   - Create and resolve incidents
   - Configure monitors
   - View analytics
-  - Manage team members (invite only)
-  - View billing information
-- **Restrictions**: Cannot change billing or delete account
-- **Best For**: Engineering managers, senior staff
+  # Team Collaboration
 
-### Member
-- **Access Level**: Full operational access
-- **Capabilities**:
-  - Create, update, delete monitors
-  - Create and manage incidents
-  - View analytics
-  - Configure monitors
-  - View team members
-  - Manage personal API keys
-- **Restrictions**: Cannot manage team or settings
-- **Best For**: Engineers, operations staff
+  StatusApp keeps collaboration simple: customer workspaces can invite teammates who all share the same full-access Customer role. Use it to coordinate monitors, incidents, and status pages without juggling legacy role matrices.
 
-### Viewer
-- **Access Level**: Read-only access
-- **Capabilities**:
-  - View monitors and status
-  - View analytics and reports
-  - View incidents (read-only)
-  - View status pages
-  - View team information
-- **Restrictions**: Cannot create or modify anything
-- **Best For**: Stakeholders, executives, customers
+  ## What Access Teammates Get
 
-## Inviting Team Members
+  - Manage monitors (create/edit/delete)
+  - Create and resolve incidents, post updates
+  - Manage status pages and components
+  - View analytics and exports
+  - Manage notification channels and on-call rotations
+  - Update workspace settings (excluding billing ownership changes by design)
 
-### Step 1: Access Team Settings
+  > Internal Staff roles (Support, Accounts, Admin) are reserved for StatusApp support staff and are not assignable by customers.
 
-1. Go to **Settings > Team**
-2. Click **Invite Member**
+  ## Invite Teammates
 
-### Step 2: Send Invitation
+  1. Go to **Settings → Team**
+  2. Click **Invite teammate**
+  3. Enter their email
+  4. Send the invite
 
-1. Enter team member's email
-2. Select their role
-3. Add optional welcome message
-4. Click **Send Invite**
+  The teammate receives an email. After accepting, they appear in your team list with Customer access.
 
-### Step 3: Invitation Process
+  ### Resend or Cancel an Invite
+  - In **Settings → Team**, find the pending invite
+  - Choose **Resend** or **Cancel**
 
-- Invitation sent via email
-- Link valid for 7 days
-- Team member clicks link
-- Creates account or signs in
-- Automatically added to team
+  ### Remove a Teammate
+  - In **Settings → Team**, click **Remove** beside their name
+  - They lose access immediately
 
-### Step 4: Welcome
+  ## Best Practices
 
-- Team member sees welcome dashboard
-- Access based on their role
-- Can begin collaborating immediately
+  - Keep at least two teammates invited for coverage
+  - Add distribution lists for critical notifications (e.g., on-call@yourdomain)
+  - Use incident templates to keep updates consistent
+  - Align monitors with ownership: name monitors after services/owners (e.g., "payments-api | platform")
 
-## Managing Team Members
+  ## Plan Notes
 
-### Viewing Team
+  - Team invitations are available on all paid plans
+  - Seat counts may be limited per plan; check **Billing → Plan** for your limit
+  - SSO/SCIM (if enabled on your account) applies to all Customer users
 
-1. Go to **Settings > Team**
-2. See list of all team members
-3. Shows:
-   - Name and email
-   - Role
-   - Join date
-   - Last active
-   - Status (active/invited)
+  ## Troubleshooting Invites
 
-### Changing Roles
-
-1. Click team member
-2. Select new role from dropdown
-3. Confirm change
-4. New permissions take effect immediately
-
-### Removing Team Members
-
-1. Click team member
-2. Click **Remove from Team**
+  - **Invite not received:** check spam, allowlist `statusapp.io` mail domain, then resend
+  - **Link expired:** resend the invite
+  - **Wrong email:** cancel and send a new invite
 3. Confirm removal
 4. Access revoked immediately
 5. Historical data preserved
@@ -361,5 +331,5 @@ Shared keys for services:
 
 - Learn about [API access](/articles/api/api-overview)
 - Set up [monitors](/articles/monitors/understanding-monitor-types)
-- Configure [notifications](/articles/alerting-notifications/setting-up-notifications)
+- Configure [notifications](/articles/alerting-notifications/notification-channels-guide)
 - Review [security best practices](/help)

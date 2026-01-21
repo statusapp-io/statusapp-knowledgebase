@@ -7,128 +7,118 @@ order: 10
 ---
 
 # Common Troubleshooting Issues
+# Common Troubleshooting
 
-## Monitor Issues
+Use this guide to resolve frequent issues with monitors, notifications, incidents, and status pages.
 
-### Monitor Shows Down But Service is Up
+## Monitors
 
-**Causes:**
-- StatusApp can't reach your service from monitoring regions
-- Firewall blocking monitors
-- Service responding slowly
-- DNS resolution issues
+### Monitor shows Down but service is Up
+- **Firewall blocks probes:** allow StatusApp monitor IPs (see Monitoring IPs in Settings)
+- **HTTPS/SSL errors:** expired cert, wrong host, or missing chain; test with `openssl s_client -connect domain:443 -servername domain`
+- **Redirect loops or 30x limits:** enable "Follow redirects" or fix redirect target
+- **Wrong expected status:** align the expected status code/range with your endpoint
+- **Auth required:** add headers/tokens; ensure tokens are valid
+- **Geo-specific failures:** check region-level results; some regions may be blocked
 
-**Solutions:**
+### Timeouts or very slow responses
+- Increase monitor timeout slightly to confirm behavior (e.g., 10s)
+- Check server load, DB latency, or upstream dependencies
+- Verify large payloads or long-running queries
+- Compare by region to find network-specific slowness
 
-1. **Check Service Status**
-   - Verify service is actually running
-   - Check locally: `curl https://yoursite.com`
+### DNS resolution failed
+- Confirm A/AAAA/CNAME records are correct
+- Wait for propagation after DNS changes (can take up to 24h)
+- Avoid CNAMEs pointing to records with low availability
 
-2. **Check Firewall Rules**
-   - Allow StatusApp IP ranges
-   - Check WAF (Web Application Firewall)
-   - Disable rate limiting temporarily
+### TLS/Certificate errors
+- Renew expired certificates; install intermediate chain
+- Ensure `Common Name`/SAN matches the hostname
+- For custom domains behind proxies, present the correct cert to monitors
 
-3. **Verify Monitor Configuration**
-   - Check URL is correct
-   - Verify expected status code
-   - Check timeout settings
-   - Try simple HTTP request without validation
+### Wrong status code
+- Enable/disable redirect following as needed
+- Add authentication headers or query params required by the endpoint
+- Verify the endpoint itself with `curl -I` from an external network
 
-4. **Test from Different Regions**
-   - Issue may be regional
-   - Configure multi-region monitoring
-   - See which regions have connectivity
+### Webhook/Cron (Heartbeat) monitors not recovering
+- Ensure your service calls the heartbeat URL within the expected interval
+- Check for clock drift or paused jobs
+- Confirm you are using the latest heartbeat URL after regenerating it
 
-5. **Check DNS**
-   - Verify domain resolves
-   - Use nslookup or dig
-   - Check for DNS propagation issues
+## Notifications
 
-### Monitor Keeps Timing Out
+### Email not received
+- Check spam/junk; allowlist `statusapp.io`
+- Verify the email is listed in the notification rule
+- Send a test notification from Settings → Notifications
 
-**Causes:**
-- Service responding slowly
-- Timeout threshold too low
-- Network connectivity issues
-- Overloaded server
+### Slack not receiving alerts
+- Reconnect the Slack integration if the app was removed
+- Ensure the target channel still exists and the app has permission
+- Check if incident/monitor is included in the Slack rule
 
-**Solutions:**
+### SMS/Phone not received
+- Confirm the phone number and country code are correct
+- Check plan includes SMS/voice; exhausted credits can block delivery
+- Carriers may filter unknown callers; try SMS if voice is blocked (or vice versa)
 
-1. **Increase Timeout**
-   - Go to monitor settings
-   - Increase timeout (default 10s)
-   - Try 30 seconds
-   - Monitor for issues
+### Webhook issues
+- Verify the endpoint returns 2xx within timeout
+- Check signature/secret validation if enabled
+- Review retry logs; StatusApp retries on non-2xx responses
 
-2. **Check Server Performance**
-   - Monitor server CPU/memory
-   - Check database performance
-   - Look for slow queries
-   - Review application logs
+## Incidents
 
-3. **Optimize Service**
-   - Add caching
-   - Use CDN
-   - Optimize database queries
-   - Scale infrastructure
+### Incident did not auto-close
+- Ensure the linked monitor is back to UP in all regions
+- Confirm no ongoing maintenance window overlapping the incident
+- If needed, manually resolve and add a postmortem note
 
-4. **Check Network**
-   - Ping server from regions
-   - Measure network latency
-   - Check for packet loss
-   - Contact your ISP if needed
+### Status page not showing incident
+- Confirm the incident is published (not private/internal)
+- Ensure the affected monitors/components are attached to the status page
 
-### Wrong Status Code Alert
+## Status Pages
 
-**Example**: Getting 503 instead of 200
+### Custom domain not working
+- Add `CNAME` pointing to your StatusApp host
+- Wait for DNS propagation; avoid CDN caching stale DNS
+- Ensure SSL issuance completed (usually a few minutes after DNS is correct)
 
-**Causes:**
-- Service is down
-- Maintenance mode enabled
-- Load balancer misconfigured
-- Rate limiting triggering
+### Metrics missing on status page
+- Monitors must be linked to the page and have recent data
+- Some metrics require paid plans; verify plan includes public metrics
 
-**Solutions:**
+### Embedded page or widgets not updating
+- Browser/caching issues: hard refresh or disable aggressive CDN caching
+- Confirm the embed uses HTTPS and correct domain
 
-1. **Verify Actual Status Code**
-   - Test manually
-   - Check with curl: `curl -i https://yoursite.com`
+## API
 
-2. **Check for Redirects**
-   - Monitor settings: allow or disallow redirects
-   - Check redirect chains
-   - Verify final destination
+### 401/403 Unauthorized
+- Use the latest API token; tokens are workspace-scoped
+- Check if token has been revoked
+- Send token in the `Authorization: Bearer <token>` header
 
-3. **Check Rate Limiting**
-   - StatusApp checks from multiple regions
-   - Might trigger rate limits
-   - Whitelist StatusApp IPs
-   - Increase rate limit thresholds
+### Rate limit errors
+- Reduce request frequency or add client-side backoff
+- Batch requests where possible
 
-4. **Review Application Logs**
-   - Check application error logs
-   - Look for exceptions
-   - Check database connectivity
-   - Review recent deployments
+## Billing/Plan Limits
 
-## Notification Issues
+- Monitor count exceeded: remove unused monitors or upgrade plan
+- Notification credits exhausted: add credits or wait for renewal
+- Seat limits reached: remove inactive teammates or upgrade
 
-### Not Receiving Email Alerts
+## Still stuck?
 
-**Causes:**
-- Email misconfigured
-- Alerts disabled
-- Email in spam folder
-- Notification rules don't match
-
-**Solutions:**
-
-1. **Verify Email Setting**
-   - Go to Settings > Notifications
-   - Email section enabled?
-   - Correct email address?
-
+Contact support with these details for faster help:
+- Monitor type and target URL/host
+- Exact error message and timestamp (UTC)
+- Recent config changes (deploys, DNS, certs, firewall)
+- Status page URL (if relevant)
 2. **Check Notification Rules**
    - What events trigger email?
    - Monitor status matches?

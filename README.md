@@ -7,33 +7,38 @@ This is the public knowledge base for StatusApp - a comprehensive guide to help 
 - **articles/**: All knowledge base articles organized by category
   - `getting-started/`: Initial setup and onboarding
   - `monitors/`: Creating and managing monitors
-  - `incidents/`: Incident management and tracking
-  - `status-pages/`: Public status page creation
-  - `alerting-notifications/`: Alert configuration and notifications
-  - `analytics/`: Understanding analytics and reports
-  - `api/`: API documentation and usage
-  - `billing-plans/`: Subscription plans and billing
-  - `team-collaboration/`: Team management and permissions
-  - `troubleshooting/`: Common issues and solutions
+  - `incidents/`: Incident workflows and communication
+  - `status-pages/`: Public status pages and custom domains
+  - `alerting-notifications/`: Alerts, channels, and on-call
+  - `analytics/`: Reliability and performance analytics
+  - `api/`: API usage and authentication
+  - `billing-plans/`: Plans, seats, and billing
+  - `team-collaboration/`: Team invitations and access
+  - `troubleshooting/`: Common issues and fixes
 
 ## Article Format
 
-Each article is a JSON file with the following structure:
+Each article is a Markdown file with front matter at the top:
 
-```json
-{
-  "title": "Article Title",
-  "slug": "article-slug",
-  "category": "Category Name",
-  "excerpt": "Brief summary of the article",
-  "content": "Full markdown content of the article",
-  "order": 1
-}
+```md
+---
+title: Article Title
+slug: article-slug
+category: Category Name
+excerpt: Brief summary of the article
+order: 1
+---
+
+# Article Title
+
+Body content in Markdown...
 ```
+
+The `order` controls sorting within the category. Keep slugs stable to avoid broken links.
 
 ## Contributing
 
-Articles are maintained by the StatusApp team. For suggestions or updates, please contact support@statusapp.io.
+Articles are maintained by the StatusApp team. For suggestions or updates, open a PR or contact support@statusapp.io.
 
 ## License
 

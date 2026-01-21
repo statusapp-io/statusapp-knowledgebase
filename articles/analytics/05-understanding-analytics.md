@@ -10,114 +10,171 @@ order: 5
 
 ## Overview
 
-StatusApp provides comprehensive analytics to help you understand your service performance and identify trends. This guide explains key metrics and how to use them effectively.
+StatusApp includes built-in analytics to track reliability, performance, and incident quality. Dashboards focus on what matters most: uptime, response time percentiles, incident frequency, MTTR, and root causes. This guide explains each metric, where to find it, and how to act on it.
 
 ## Key Metrics
 
 ### Uptime Percentage
 
-Uptime is calculated as:
 ```
-Uptime % = (Total Check Time - Down Time) / Total Check Time × 100
-```
-
-#### What It Means
-- **99.9% (Three Nines)**: 43.2 minutes of downtime per month
-- **99.99% (Four Nines)**: 4.3 minutes of downtime per month
-- **99.999% (Five Nines)**: 26 seconds of downtime per month
-
-#### Factors Affecting Uptime
-- Actual service outages
-- Network connectivity issues
-- Monitoring point issues
-- False positives from misconfiguration
-
-### Response Time
-
-How quickly your services respond to requests.
-
-#### Response Time Metrics
-- **Average**: Mean response time across all checks
-- **Median (P50)**: Middle value - half faster, half slower
-- **P95**: 95% of responses are faster than this
-- **P99**: 99% of responses are faster than this
-- **Max**: Slowest response time recorded
-- **Min**: Fastest response time recorded
-
-#### Interpreting Response Times
-- Improving trend: Faster responses, better user experience
-- Degrading trend: Slower responses, potential issues
-- Spikes: Temporary slowdowns, often during high load
-- Consistency: Lower variation is better
-
-### Mean Time To Recovery (MTTR)
-
-How long it takes to recover from an outage:
-```
-MTTR = Total Recovery Time / Number of Incidents
+Uptime % = (Successful Checks ÷ Total Checks) × 100
 ```
 
-#### Using MTTR
-- Track improvement over time
-- Compare with industry standards
-- Identify problem areas
-- Justify investments in reliability
+- Calculated per monitor, per region, and overall
+- Includes DOWN and DEGRADED time
+- Shown for 24h, 7d, 30d, and 90d periods
 
-### Incident Statistics
+**Industry benchmarks**
+- 99.9% ("three nines") ≈ 43.2 min downtime/month
+- 99.99% ("four nines") ≈ 4.3 min downtime/month
+- 99.999% ("five nines") ≈ 26 sec downtime/month
 
-- **Total Incidents**: Number of detected outages
-- **Average Duration**: How long incidents typically last
-- **Incident Frequency**: How often outages occur
-- **Time Between Incidents**: MTBF (Mean Time Between Failures)
+### Response Time Percentiles
 
-## Analytics Dashboards
+How fast your endpoint responds, shown as:
+- **P50 (Median)**: Typical user experience
+- **P90/P95**: Slow end of normal traffic
+- **P99**: Outliers; great for spotting regressions
+- **Average**: Helpful but can hide spikes
 
-### Per-Monitor Analytics
+Interpreting:
+- Rising P95/P99 = emerging performance issue
+- Spiky graph = inconsistent performance
+- Flat, low percentiles = healthy service
 
-1. Click on a monitor from the dashboard
-2. Go to **Analytics** tab
-3. Select time period (24h, 7d, 30d, 90d)
+### MTTR (Mean Time To Resolution)
 
-#### What's Displayed
-- Real-time status
-- Current uptime percentage
-- Average response time
-- Response time graph
-- Incident history
-- Recent checks log
+```
+MTTR = (Sum of incident durations) ÷ (Number of resolved incidents)
+```
+- Measures how quickly you recover
+- Tracked per monitor and overall
+- Shown on Incident Analytics
 
-### Custom Time Periods
+### Time to First Update
+- Measures responsiveness in communication
+- Tracks minutes from incident start to first public update
+- Aim for < 15 minutes
 
-1. Select **Custom Range**
-2. Choose start and end dates
-3. View analytics for specific period
-4. Export data if needed
+### Incident Frequency
+- Count of incidents over time (daily/weekly/monthly)
+- Highlights noisy services
+- Correlate with deployments or traffic peaks
 
-### Comparison Mode
+### Top Root Causes
+- Breakdown of root cause categories across incidents
+- Identify systemic issues (e.g., DATABASE_ISSUE, DEPLOYMENT_ISSUE)
 
-- Compare same monitor across different periods
-- Compare different monitors
-- Identify seasonal trends
-- Track improvements
+## Dashboards
 
-## Understanding Charts
+### Overview Dashboard (Incidents)
+Shows reliability and communication quality at a glance:
+- Active vs Resolved incidents
+- Average MTTR
+- Time to first update
+- Incident frequency over time
+- Severity breakdown
+- Top root causes
+- Top monitors by incident count
 
-### Response Time Graph
+### Monitor Analytics
+For each monitor, view:
+- Current status (UP/DOWN/DEGRADED)
+- Uptime % for 24h/7d/30d/90d
+- Response time percentiles (P50/P95/P99)
+- Region-level performance (where available)
+- Incident history and duration
+- Recent checks with status codes/errors
 
-- **X-Axis**: Time
-- **Y-Axis**: Response time in milliseconds
-- **Green Area**: Normal response times
-- **Red Area**: Degraded or timeout areas
-- **Points Above Line**: Individual slow requests
+### Status Page Reliability
+When a monitor is on a status page, its uptime and incidents roll into public metrics:
+- 90-day uptime chart (public)
+- Daily uptime bars with color coding
+- Public incident history
+
+## Time Ranges
+
+- Quick ranges: 24h, 7d, 30d, 90d
+- Custom range: choose start/end dates
+- All charts and tables respect the selected range
+
+## Charts & Visuals
 
 ### Uptime Timeline
+- Green = operational
+- Yellow = degraded
+- Red = down
+- Hover for exact timestamps and duration
 
-- **Green Segments**: Uptime (100%)
-- **Red Segments**: Downtime (0%)
-- **Yellow Segments**: Degraded (partial)
-- **Hover for Details**: See exact times and durations
+### Response Time Chart
+- Line or area chart of response times
+- P50/P95/P99 overlays for quick regression spotting
+- Spikes highlight potential performance incidents
 
-### Status Distribution
+### Incident Frequency & Severity
+- Bar/line chart of incidents over time
+- Severity breakdown (Critical/High/Medium/Low)
+- Click through to the incident details
+
+### Root Cause Breakdown
+- Pie/bar chart of root cause categories
+- Track whether fixes reduce recurring causes
+
+## How to Use Analytics
+
+### Detect Regressions Early
+- Watch P95/P99 for rising trends
+- Compare 24h vs 7d to see fresh problems
+- Correlate spikes with deployments
+
+### Improve Reliability
+- Track MTTR over the last 30/90 days
+- Find top failing monitors and prioritize fixes
+- Reduce time to first update during incidents
+
+### Capacity & Performance Planning
+- Monitor response time trends before traffic peaks
+- Identify slow regions and add redundancy
+- Use historical baselines for SLO/SLA targets
+
+### Communication Quality
+- Keep "time to first update" under 15 minutes
+- Ensure regular updates during incidents
+- Measure resolution quality with root cause tracking
+
+## Exports
+
+- Export incident lists and metrics (CSV) for reporting
+- Export check logs for deep analysis (per monitor)
+- Copy uptime numbers for status reports
+
+## Plan Notes
+
+- Analytics available on all paid plans (Starter+)
+- Response time percentiles and incident analytics on Pro+
+- Exports and longer retention on Business/Enterprise
+
+## Quick Reference
+
+**If uptime drops:**
+1) Check incident list for active issues
+2) Open monitor analytics to see failing regions
+3) Review recent deployments or config changes
+
+**If P95/P99 spike:**
+1) Correlate with traffic/load
+2) Check slow regions
+3) Look for database or third-party latency
+
+**If MTTR is high:**
+1) Improve alerting + on-call response
+2) Standardize runbooks
+3) Post updates faster to keep teams aligned
+
+**If incidents repeat:**
+1) Review root cause breakdown
+2) Fix systemic issues (config, DB, deployments)
+3) Add automated checks for the specific failure mode
 
 - **Pie Chart**: Percentage of each status
 - **Success Rate**: HTTP 2xx responses
@@ -319,6 +376,6 @@ Look for these patterns:
 ## Next Steps
 
 - Learn about [incident management](/articles/incidents/incident-management-basics)
-- Set up [alerts](/articles/alerting-notifications/setting-up-notifications)
+- Set up [alerts](/articles/alerting-notifications/notification-channels-guide)
 - Create [status pages](/articles/status-pages/creating-status-pages)
 - Explore [API](/articles/api/api-overview)

@@ -1,142 +1,332 @@
 ---
-title: API Reference and Integration Guide
+title: API Reference Guide
 slug: api-reference-guide
 category: API
-excerpt: Complete guide to StatusApp API for programmatic monitor and incident management.
+excerpt: Complete guide to using the StatusApp REST API for programmatic monitoring management.
 order: 9
 ---
 
-# API Reference and Integration Guide
+# StatusApp API Reference Guide
 
-## Getting Started with the API
+## Overview
 
-### Authentication
+The StatusApp API allows you to programmatically manage monitors, retrieve incidents, access analytics, and automate your monitoring workflow. The API is RESTful, returns JSON responses, and uses standard HTTP authentication.
 
-All API requests require an API key in the Authorization header:
+**Base URL**: `https://statusapp.io/api/v1`
 
+## Authentication
+
+### API Keys
+
+All API requests require authentication using an API key. Generate API keys from your dashboard at **Settings → Integrations → API Access**.
+
+### Authentication Methods
+
+**Option 1: X-API-Key Header** (Recommended)
 ```bash
-curl -H "Authorization: Bearer sk_live_abc123..." \
-  https://api.statusapp.io/monitors
+curl -H "X-API-Key: sk_live_abc123xyz..." \
+  https://statusapp.io/api/v1/monitors
 ```
 
-### API Key Management
+**Option 2: Authorization Bearer Token**
+```bash
+curl -H "Authorization: Bearer sk_live_abc123xyz..." \
+  https://statusapp.io/api/v1/monitors
+```
 
-1. Go to **Settings > API Keys**
-2. Click **Create New Key**
-3. Enter key name
-4. Select permissions:
-   - **read**: View data only
-   - **write**: Create and update data
-   - **admin**: Full access
-5. Copy and save securely
+### API Key Security
 
-### Rate Limits
+- **Never commit API keys** to source control
+- **Use environment variables** to store keys
+- **Rotate keys regularly** using expiration dates
+- **Revoke unused keys** immediately from dashboard
+- **Use minimal permissions** - only grant what's needed
 
-- **Free Plan**: 100 requests/hour
-- **Starter Plan**: 1,000 requests/hour
-- **Professional Plan**: 10,000 requests/hour
-- **Business Plan**: 50,000 requests/hour
-- **Enterprise**: Custom limits
+## Rate Limits
+
+Rate limits are based on your subscription plan:
+
+| Plan | Requests per Hour |
+|------|-------------------|
+| Free | 100 |
+| Starter | 1,000 |
+| Professional | 5,000 |
+| Business | 10,000 |
+| Enterprise | 100,000 |
+
+### Rate Limit Headers
+
+Every API response includes rate limit information:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 856
+X-RateLimit-Reset: 1737201600
+```
+
+When rate limit is exceeded, you'll receive a `429 Too Many Requests` response.
 
 ## Endpoints
 
 ### Monitors
 
-#### List Monitors
+#### List All Monitors
 
-```bash
-GET /api/monitors
+```http
+GET /api/v1/monitors
 ```
 
-Parameters:
-- `status`: Filter by status (UP, DOWN, DEGRADED)
-- `category`: Filter by monitor type
-- `limit`: Results per page (default: 20, max: 100)
-- `page`: Page number (default: 1)
+**Response**:
+```json
+{
+  "monitors": [
+    {
+      "id": "mon_abc123",
+      "name": "Production API",
+      "url": "https://api.example.com",
+      "type": "API",
+      "status": "UP",
+      "interval": 300,
+      "timeout": 30,
+      "isActive": true,
+      "isPaused": false,
+      "createdAt": "2025-01-01T00:00:00Z",
+      "updatedAt": "2025-01-21T10:30:00Z"
+    }
+  ],
+  "count": 1
+}
+```
 
-#### Get Monitor Details
+#### Get Monitor by ID
 
-```bash
-GET /api/monitors/{id}
+```http
+GET /api/v1/monitors/{monitorId}
+```
+
+**Response**:
+```json
+{
+  "id": "mon_abc123",
+  "name": "Production API",
+  "url": "https://api.example.com",
+  "type": "API",
+  "status": "UP",
+  "interval": 300,
+  "timeout": 30,
+  "expectedStatusCode": 200,
+  "httpMethod": "GET",
+  "enabledRegions": ["us-east-1", "eu-west-1"],
+  "avgResponseTime24h": 250,
+  "uptime90d": 99.95
+}
 ```
 
 #### Create Monitor
 
-```bash
-POST /api/monitors
+```http
+POST /api/v1/monitors
+Content-Type: application/json
+```
 
+**Request Body**:
+```json
 {
-  "name": "API Health Check",
-  "type": "http",
-  "url": "https://api.example.com/health",
-  "interval": 60,
-  "timeout": 10
+  "name": "My Website",
+  "url": "https://example.com",
+  "type": "WEBSITE",
+  "interval": 300,
+  "timeout": 30,
+  "expectedStatusCode": 200,
+  "httpMethod": "GET",
+  "enabledRegions": ["us-east-1", "eu-west-1"]
+}
+```
+
+**Monitor Types**: `WEBSITE`, `API`, `GRAPHQL`, `PING`, `PORT`, `DNS`, `SSL_CERT`, `CRON`
+
+**Optional Fields**:
+- `requestHeaders` - JSON string of headers
+- `requestBody` - Request body for POST/PUT
+- `port` - Port number for PORT monitors
+- `protocol` - TCP or UDP for PORT monitors  
+- `dnsRecord` - DNS record type for DNS monitors
+- `sslCertExpiryDays` - Days before SSL expiration to alert
+- `gracePeriod` - Grace period for CRON monitors
+
+**Response**:
+```json
+{
+  "id": "mon_xyz789",
+  "name": "My Website",
+  "status": "UP",
+  "createdAt": "2025-01-21T10:30:00Z"
 }
 ```
 
 #### Update Monitor
 
-```bash
-PUT /api/monitors/{id}
-
-{
-  "name": "Updated Name",
-  "status": "PAUSED"
-}
+```http
+PUT /api/v1/monitors/{monitorId}
+Content-Type: application/json
 ```
+
+All fields optional. Only provided fields will be updated.
 
 #### Delete Monitor
 
-```bash
-DELETE /api/monitors/{id}
+```http
+DELETE /api/v1/monitors/{monitorId}
 ```
+
+**Response**:
+```json
+{
+  "success": true,
+  "message": "Monitor deleted successfully"
+}
+```
+
+#### Pause/Resume Monitor
+
+```http
+POST /api/v1/monitors/{monitorId}/pause
+POST /api/v1/monitors/{monitorId}/resume
+```
+
+**Response**:
+```json
+{
+  "id": "mon_abc123",
+  "isPaused": true
+}
+```
+
+### Heartbeat Endpoints
+
+Heartbeat monitors allow you to ping StatusApp when scheduled jobs run.
+
+#### Ping Heartbeat (Success)
+
+```http
+POST /api/v1/heartbeat/{monitorId}
+GET /api/v1/heartbeat/{monitorId}
+HEAD /api/v1/heartbeat/{monitorId}
+```
+
+All methods accept the heartbeat ping. Use whichever is most convenient.
+
+**Response**:
+```json
+{
+  "success": true,
+  "monitorId": "mon_abc123",
+  "timestamp": "2025-01-21T10:30:00Z"
+}
+```
+
+#### Report Heartbeat Failure
+
+```http
+POST /api/v1/heartbeat/{monitorId}/fail
+```
+
+Use this to explicitly report when a job fails.
+
+**Optional Body**:
+```json
+{
+  "error": "Database backup failed: disk full"
+}
+```
+
+#### Start Heartbeat Job
+
+```http
+POST /api/v1/heartbeat/{monitorId}/start
+```
+
+Report when a long-running job starts. Useful for tracking job duration.
+
+#### Log Heartbeat Message
+
+```http
+POST /api/v1/heartbeat/{monitorId}/log
+Content-Type: application/json
+```
+
+**Request**:
+```json
+{
+  "message": "Backup completed: 1.2GB backed up successfully"
+}
+```
+
+Add context to heartbeat pings without failing the check.
 
 ### Incidents
 
 #### List Incidents
 
-```bash
-GET /api/incidents
-
-Parameters:
-- status: Filter by status (INVESTIGATING, IDENTIFIED, MONITORING, RESOLVED)
-- limit: Results per page
-- page: Page number
+```http
+GET /api/v1/incidents
+GET /api/v1/incidents?monitorId={monitorId}
+GET /api/v1/incidents?status=active
 ```
 
-#### Create Incident
+**Query Parameters**:
+- `monitorId` - Filter by specific monitor
+- `status` - Filter by status: `active`, `resolved`, or `all`
+- `limit` - Number of results (default: 50, max: 100)
+- `offset` - Pagination offset
 
-```bash
-POST /api/incidents
-
+**Response**:
+```json
 {
-  "title": "Database Maintenance",
-  "description": "Planned maintenance on primary database",
-  "status": "INVESTIGATING",
-  "affectedComponents": ["mon_123", "mon_456"],
-  "impact": "high"
+  "incidents": [
+    {
+      "id": "inc_xyz789",
+      "monitorId": "mon_abc123",
+      "monitorName": "Production API",
+      "startedAt": "2025-01-21T10:00:00Z",
+      "resolvedAt": "2025-01-21T10:15:00Z",
+      "duration": 900,
+      "isResolved": true,
+      "severity": "HIGH",
+      "status": "resolved",
+      "checksFailed": 3,
+      "checksTotal": 3,
+      "mttr": 900
+    }
+  ],
+  "count": 1,
+  "hasMore": false
 }
 ```
 
-#### Update Incident
+#### Get Incident by ID
 
-```bash
-PUT /api/incidents/{id}
-
-{
-  "status": "RESOLVED",
-  "update": "Issue resolved. All systems operational."
-}
+```http
+GET /api/v1/incidents/{incidentId}
 ```
 
-#### Add Incident Update
-
-```bash
-POST /api/incidents/{id}/updates
-
+**Response**:
+```json
 {
-  "message": "Investigating database connectivity issues",
-  "notifySubscribers": true
+  "id": "inc_xyz789",
+  "monitorId": "mon_abc123",
+  "monitorName": "Production API",
+  "startedAt": "2025-01-21T10:00:00Z",
+  "resolvedAt": "2025-01-21T10:15:00Z",
+  "duration": 900,
+  "isResolved": true,
+  "severity": "HIGH",
+  "status": "resolved",
+  "rootCause": "Database connection timeout",
+  "rootCauseCategory": "DATABASE_ISSUE",
+  "affectedRegions": ["us-east-1", "us-west-2"],
+  "checksFailed": 3,
+  "checksTotal": 3
 }
 ```
 
@@ -144,237 +334,443 @@ POST /api/incidents/{id}/updates
 
 #### List Status Pages
 
-```bash
-GET /api/status-pages
+```http
+GET /api/v1/status-pages
+```
+
+**Response**:
+```json
+{
+  "statusPages": [
+    {
+      "id": "sp_abc123",
+      "name": "Public Status",
+      "slug": "status",
+      "customDomain": "status.example.com",
+      "isPublic": true,
+      "monitorCount": 5
+    }
+  ]
+}
 ```
 
 #### Get Status Page
 
-```bash
-GET /api/status-pages/{id}
+```http
+GET /api/v1/status-pages/{statusPageId}
 ```
 
-#### Update Status Page
+Returns detailed status page information including monitors.
 
-```bash
-PUT /api/status-pages/{id}
+### Worker Regions
 
+#### List Available Regions
+
+```http
+GET /api/v1/worker-regions
+```
+
+**Response**:
+```json
 {
-  "name": "Updated Name",
-  "description": "Updated description"
+  "regions": [
+    {
+      "id": "region_us_east_1",
+      "city": "Virginia",
+      "country": "United States",
+      "countryCode": "US",
+      "latitude": 37.926868,
+      "longitude": -78.024902,
+      "isActive": true
+    }
+  ]
 }
 ```
 
-### Webhooks
+Use this to get valid region codes for monitor configuration.
 
-#### Event Types
+### Health Check
 
-- `monitor.down`: Monitor status changed to DOWN
-- `monitor.up`: Monitor recovered to UP
-- `incident.created`: New incident created
-- `incident.updated`: Incident status changed
-- `incident.resolved`: Incident resolved
+#### API Health
 
-#### Webhook Payload
+```http
+GET /api/v1/health
+```
+
+**Response**:
+```json
+{
+  "status": "ok",
+  "version": "1.0.0",
+  "timestamp": "2025-01-21T10:30:00Z"
+}
+```
+
+Use for uptime monitoring of the StatusApp API itself.
+
+## Error Handling
+
+### Error Response Format
+
+All errors return a consistent JSON format:
+
+```json
+{
+  "error": "Error message description",
+  "code": "ERROR_CODE",
+  "statusCode": 400
+}
+```
+
+### Common Error Codes
+
+| HTTP Status | Error Code | Description |
+|-------------|------------|-------------|
+| 400 | `BAD_REQUEST` | Invalid request parameters |
+| 401 | `UNAUTHORIZED` | Missing or invalid API key |
+| 403 | `FORBIDDEN` | Insufficient permissions |
+| 404 | `NOT_FOUND` | Resource not found |
+| 429 | `RATE_LIMIT_EXCEEDED` | Too many requests |
+| 500 | `INTERNAL_SERVER_ERROR` | Server error |
+
+## Code Examples
+
+### Node.js / JavaScript
+
+```javascript
+const STATUSAPP_API_KEY = process.env.STATUSAPP_API_KEY;
+const BASE_URL = 'https://statusapp.io/api/v1';
+
+async function createMonitor() {
+  const response = await fetch(`${BASE_URL}/monitors`, {
+    method: 'POST',
+    headers: {
+      'X-API-Key': STATUSAPP_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: 'My API',
+      url: 'https://api.example.com',
+      type: 'API',
+      interval: 300,
+      expectedStatusCode: 200
+    })
+  });
+  
+  const data = await response.json();
+  console.log('Monitor created:', data);
+}
+```
+
+### Python
+
+```python
+import os
+import requests
+
+STATUSAPP_API_KEY = os.environ['STATUSAPP_API_KEY']
+BASE_URL = 'https://statusapp.io/api/v1'
+
+def create_monitor():
+    headers = {
+        'X-API-Key': STATUSAPP_API_KEY,
+        'Content-Type': 'application/json'
+    }
+    
+    payload = {
+        'name': 'My API',
+        'url': 'https://api.example.com',
+        'type': 'API',
+        'interval': 300,
+        'expectedStatusCode': 200
+    }
+    
+    response = requests.post(
+        f'{BASE_URL}/monitors',
+        headers=headers,
+        json=payload
+    )
+    
+    print('Monitor created:', response.json())
+```
+
+### cURL
+
+```bash
+curl -X POST https://statusapp.io/api/v1/monitors \
+  -H "X-API-Key: sk_live_abc123xyz..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "My API",
+    "url": "https://api.example.com",
+    "type": "API",
+    "interval": 300,
+    "expectedStatusCode": 200
+  }'
+```
+
+### Go
+
+```go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+    "os"
+)
+
+func createMonitor() {
+    apiKey := os.Getenv("STATUSAPP_API_KEY")
+    baseURL := "https://statusapp.io/api/v1"
+    
+    payload := map[string]interface{}{
+        "name":               "My API",
+        "url":                "https://api.example.com",
+        "type":               "API",
+        "interval":           300,
+        "expectedStatusCode": 200,
+    }
+    
+    jsonData, _ := json.Marshal(payload)
+    req, _ := http.NewRequest("POST", baseURL+"/monitors", bytes.NewBuffer(jsonData))
+    req.Header.Set("X-API-Key", apiKey)
+    req.Header.Set("Content-Type", "application/json")
+    
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+    
+    var result map[string]interface{}
+    json.NewDecoder(resp.Body).Decode(&result)
+    fmt.Println("Monitor created:", result)
+}
+```
+
+## Webhooks
+
+### Receiving Webhooks from StatusApp
+
+StatusApp can send webhooks to your endpoints when events occur. This is different from the API - webhooks push data to you instead of you pulling data from the API.
+
+Set up webhooks in **Settings → Notification Channels → Create Channel → Webhook**.
+
+### Webhook Payload
 
 ```json
 {
   "event": "monitor.down",
-  "timestamp": "2024-01-21T10:30:00Z",
+  "timestamp": "2025-01-21T10:30:00Z",
   "monitor": {
-    "id": "mon_123",
-    "name": "API Server",
-    "status": "DOWN",
-    "lastCheck": "2024-01-21T10:29:58Z"
+    "id": "mon_abc123",
+    "name": "Production API",
+    "url": "https://api.example.com",
+    "type": "API",
+    "status": "DOWN"
   },
   "incident": {
-    "id": "inc_456",
-    "status": "ACTIVE"
+    "id": "inc_xyz789",
+    "startedAt": "2025-01-21T10:25:00Z",
+    "duration": 300,
+    "checksFailed": 3
+  },
+  "check": {
+    "statusCode": 500,
+    "responseTime": 1250,
+    "error": "Internal Server Error",
+    "region": "us-east-1"
   }
 }
 ```
 
-#### Verifying Webhook Signatures
+### Webhook Events
 
-```python
-import hmac
-import hashlib
+- `monitor.down` - Monitor went down
+- `monitor.up` - Monitor recovered
+- `monitor.degraded` - Performance degraded
+- `regression.detected` - Performance regression
+- `regression.resolved` - Regression resolved
+- `ssl.expiring` - SSL certificate expiring soon
 
-def verify_signature(payload, signature, secret):
-    expected = hmac.new(
-        secret.encode(),
-        payload.encode(),
-        hashlib.sha256
-    ).hexdigest()
-    return hmac.compare_digest(signature, expected)
-```
+## Best Practices
 
-## Error Handling
+### 1. Use Environment Variables
 
-### HTTP Status Codes
-
-- `200 OK`: Request successful
-- `201 Created`: Resource created
-- `400 Bad Request`: Invalid parameters
-- `401 Unauthorized`: Invalid API key
-- `403 Forbidden`: Insufficient permissions
-- `404 Not Found`: Resource not found
-- `429 Too Many Requests`: Rate limit exceeded
-- `500 Internal Server Error`: Server error
-
-### Error Response
-
-```json
-{
-  "error": {
-    "code": "invalid_request",
-    "message": "Invalid monitor URL",
-    "details": "URL must be valid HTTP/HTTPS"
-  }
-}
-```
-
-## Integration Examples
-
-### Python Integration
-
-```python
-import requests
-
-api_key = "sk_live_abc123"
-headers = {"Authorization": f"Bearer {api_key}"}
-
-# Get all monitors
-response = requests.get(
-    "https://api.statusapp.io/monitors",
-    headers=headers
-)
-monitors = response.json()
-
-# Create incident
-incident_data = {
-    "title": "Service Degradation",
-    "status": "INVESTIGATING",
-    "affectedComponents": ["mon_123"]
-}
-response = requests.post(
-    "https://api.statusapp.io/incidents",
-    headers=headers,
-    json=incident_data
-)
-```
-
-### JavaScript Integration
+Never hardcode API keys in your code:
 
 ```javascript
-const apiKey = "sk_live_abc123";
+const API_KEY = process.env.STATUSAPP_API_KEY;
+```
 
-// Get all incidents
-const response = await fetch(
-  "https://api.statusapp.io/incidents",
-  {
-    headers: {
-      "Authorization": `Bearer ${apiKey}`
-    }
+### 2. Handle Rate Limits
+
+Check rate limit headers and implement backoff:
+
+```javascript
+if (response.status === 429) {
+  const resetTime = response.headers.get('X-RateLimit-Reset');
+  const waitSeconds = resetTime - Math.floor(Date.now() / 1000);
+  await new Promise(resolve => setTimeout(resolve, waitSeconds * 1000));
+  // Retry request
+}
+```
+
+### 3. Error Handling
+
+Always handle errors gracefully:
+
+```javascript
+try {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    const error = await response.json();
+    console.error('API Error:', error.error);
   }
-);
-const incidents = await response.json();
+} catch (error) {
+  console.error('Network Error:', error);
+}
+```
 
-// Create monitor
-const monitorData = {
-  name: "Website Check",
-  type: "http",
-  url: "https://example.com",
-  interval: 60
-};
+### 4. Pagination
 
-const createResponse = await fetch(
-  "https://api.statusapp.io/monitors",
-  {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(monitorData)
-  }
-);
+Handle pagination for large result sets:
+
+```javascript
+let offset = 0;
+const limit = 100;
+let hasMore = true;
+
+while (hasMore) {
+  const response = await fetch(
+    `${BASE_URL}/monitors?limit=${limit}&offset=${offset}`
+  );
+  const data = await response.json();
+  
+  // Process data.monitors
+  
+  offset += limit;
+  hasMore = data.hasMore;
+}
+```
+
+### 5. Verify Webhook Signatures
+
+Validate webhook authenticity (if signature header provided):
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+    
+  return signature === expectedSignature;
+}
 ```
 
 ## Common Use Cases
 
-### Automated Incident Creation
+### Automated Monitor Creation
 
-Create incidents from external monitoring systems:
+Create monitors automatically when deploying new services:
 
-```bash
-curl -X POST https://api.statusapp.io/incidents \
-  -H "Authorization: Bearer sk_live_abc123" \
-  -d '{
-    "title": "External Alert",
-    "description": "Alert from monitoring system",
-    "status": "INVESTIGATING"
-  }'
+```javascript
+async function deployService(serviceName, serviceUrl) {
+  // Deploy service...
+  
+  // Create monitor
+  await createMonitor({
+    name: `${serviceName} - Production`,
+    url: serviceUrl,
+    type: 'API',
+    interval: 300,
+    enabledRegions: ['us-east-1', 'eu-west-1']
+  });
+}
 ```
 
-### Bulk Monitor Management
+### Incident Reporting Integration
 
-Programmatically create multiple monitors:
+Pull incidents into your incident management system:
 
-```python
-for url in ["https://api1.example.com", "https://api2.example.com"]:
-    requests.post(
-        "https://api.statusapp.io/monitors",
-        headers=headers,
-        json={
-            "name": f"Monitor for {url}",
-            "type": "http",
-            "url": url,
-            "interval": 60
-        }
-    )
-```
-
-## Pagination
-
-API responses with multiple results are paginated:
-
-```json
-{
-  "data": [/* items */],
-  "pagination": {
-    "page": 1,
-    "limit": 20,
-    "total": 150,
-    "pages": 8
+```javascript
+async function syncIncidents() {
+  const response = await fetch(`${BASE_URL}/incidents?status=active`);
+  const { incidents } = await response.json();
+  
+  for (const incident of incidents) {
+    await createTicketInJira(incident);
   }
 }
 ```
 
-Access next page:
+### Custom Dashboard
 
-```bash
-GET /api/monitors?page=2&limit=20
+Build custom monitoring dashboards:
+
+```javascript
+async function getDashboardData() {
+  const monitors = await fetch(`${BASE_URL}/monitors`).then(r => r.json());
+  const incidents = await fetch(`${BASE_URL}/incidents?status=active`).then(r => r.json());
+  
+  return {
+    totalMonitors: monitors.count,
+    upMonitors: monitors.monitors.filter(m => m.status === 'UP').length,
+    activeIncidents: incidents.count
+  };
+}
 ```
 
-## SDKs
+### Heartbeat Integration
 
-Official SDKs available:
-- Python: `pip install statusapp`
-- Node.js: `npm install @statusapp/sdk`
-- Go: `go get github.com/statusapp-io/go-sdk`
+Ping monitors from cron jobs or scheduled tasks:
 
-## API Documentation
+```bash
+# In crontab
+0 2 * * * /usr/local/bin/backup.sh && curl -X POST https://statusapp.io/api/v1/heartbeat/mon_abc123
+```
 
-Full interactive API documentation: https://api.statusapp.io/docs
+## Troubleshooting
 
-- Try endpoints in browser
-- See request/response examples
-- Test with your API key
-- View real data
+### 401 Unauthorized
+
+- Verify API key is correct
+- Check API key is active (not expired/revoked)
+- Ensure proper header format
+
+### 429 Rate Limit Exceeded
+
+- Check your plan's rate limits
+- Implement exponential backoff
+- Cache responses when possible
+- Upgrade plan if needed
+
+### 403 Forbidden
+
+- Verify API key has required permissions
+- Check account is active (not suspended)
+
+### Slow API Responses
+
+- Use pagination for large datasets
+- Cache responses when appropriate
+- Monitor from regions closer to API servers
 
 ## Support
 
-- Email: api-support@statusapp.io
-- Documentation: https://docs.statusapp.io
-- Issues: https://github.com/statusapp-io/api-issues
+Need help with the API?
+
+- **Documentation**: Full API docs at https://statusapp.io/docs/api
+- **Support**: Email api-support@statusapp.io
+- **Status**: Check API status at https://status.statusapp.io
+
+## Next Steps
+
+- **[Getting Started](/articles/getting-started/getting-started-with-statusapp)** - Set up your first monitor
+- **[Understanding Monitor Types](/articles/monitors/understanding-monitor-types)** - Learn about monitor configuration
+- **[Setting Up Notifications](/articles/alerting-notifications/notification-channels-guide)** - Configure alerts
+- **[Team Collaboration](/articles/team-collaboration/team-collaboration)** - Manage team access and API keys

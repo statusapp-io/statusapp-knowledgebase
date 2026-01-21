@@ -10,360 +10,754 @@ order: 6
 
 ## What is an Incident?
 
-An incident in StatusApp represents any event that affects service availability or performance. Incidents can be:
+An incident is any event that disrupts or degrades your service availability or performance. In StatusApp, incidents provide a complete timeline of issues from detection through resolution, helping you communicate with customers and learn from failures.
 
-- **Automatic**: Created when a monitor detects an issue
-- **Manual**: Created by team members for known issues
-- **External**: Created via API or webhook
+**Incidents Track**:
+- When the issue started and how long it lasted
+- Which monitors/services were affected
+- All status updates posted during the incident
+- Root cause analysis and prevention steps
+- Communication sent to subscribers
+- Incident severity and impact
+- Mean Time To Resolution (MTTR)
+
+## How Incidents Are Created
+
+### Automatic Incident Creation
+
+StatusApp automatically creates incidents when monitors fail:
+
+**Trigger Conditions**:
+1. Monitor check fails (returns non-200 status, timeout, or error)
+2. Multiple consecutive checks fail (confirmation, not a fluke)
+3. Incident created with unique incident number (e.g., `INC-00123`)
+4. Status page updated in real-time
+5. Subscribers notified via email
+
+**Automatic Incident Data**:
+- Incident number (unique identifier)
+- Start time (when first failure detected)
+- Affected monitor (which service is down)
+- Severity (automatically determined based on history)
+- Affected regions (which monitoring regions saw failures)
+- Check failure details (status codes, errors, response times)
+
+**Grace Period**
+
+Configure monitors to wait before creating incidents:
+- Prevents false positives from temporary network blips
+- Common values: 1-5 minutes
+- Set in monitor configuration
+- Balances speed vs accuracy
 
 ## Automatic Incident Creation
 
-### How It Works
+### Manual Incident Creation
 
-1. Monitor detects a problem (down, timeout, error)
-2. Incident automatically created
-3. Status page updated
-4. Notifications sent
-5. Team is alerted
+Create incidents manually for issues not automatically detected:
 
-### Configuration
+**When to Create Manually**:
+- Planned maintenance windows
+- Known issues affecting multiple services
+- Third-party service outages
+- Issues detected by users before monitoring
+- Performance degradation not triggering thresholds
 
-1. Go to monitor settings
-2. Enable **Auto-Create Incidents**
-3. Set grace period (optional)
-4. Choose incident template
-5. Save settings
+**Creating a Manual Incident**:
 
-### Grace Period
-
-Delay before creating an incident (prevents false positives):
-- **30 seconds**: Quick detection
-- **1-2 minutes**: Balanced
-- **5 minutes**: For flaky services
-
-## Creating Manual Incidents
-
-### When to Create Manual Incidents
-
-- Network outages affecting multiple services
-- Third-party service issues
-- Database maintenance
-- Scheduled maintenance
-- Known issues during investigation
-
-### Creating an Incident
-
-1. Go to **Incidents > Create Incident**
-2. Enter incident title
-3. Select affected components/monitors
-4. Choose initial status:
-   - **Investigating**: We're looking into it
-   - **Identified**: Root cause found
-   - **Monitoring**: Fix in progress
-   - **Resolved**: Issue is fixed
-
-5. Add detailed description
-6. Set impact level (low, medium, high, critical)
-7. Create incident
-
-## Managing Active Incidents
-
-### Incident Details
-
-Each incident shows:
-- Title and description
-- Creation time and current duration
-- Affected services/components
-- Current status
-- Assigned team members
-- Recent updates
-- Historical timeline
-
-### Updating Incident Status
-
-1. Click active incident
-2. Click **Update**
-3. Select new status:
-   - **Investigating**: Still determining cause
-   - **Identified**: Root cause understood
-   - **Monitoring**: Fix deployed, monitoring recovery
-   - **Resolved**: Issue fully resolved
-
-4. Add update message
-5. Notify subscribers (automatic)
-6. Save update
-
-### Adding Updates During Incident
-
-Keep customers informed:
-
-1. Click **Add Update**
-2. Provide clear information:
-   - What's happening
-   - What we're doing about it
-   - Expected resolution time
-   - Impact on users
-
-3. Notify subscribers
-4. Pin important updates
-5. Update status page
-
-### Incident Assignment
-
-1. Click on incident
-2. Click **Assign To**
-3. Select team member
-4. Send notification
-5. Track who's responsible
+1. Navigate to **Incidents** page
+2. Click **Create Incident**
+3. Fill in incident details:
+   - **Affected Monitor**: Select the impacted service
+   - **Initial Status**: Usually "Investigating"
+   - **Severity**: Critical, High, Medium, or Low
+   - **Mark as Public**: Show on status page
+   - **Initial Message**: What's happening (optional)
+4. Click **Create Incident**
+5. Incident appears on status page
+6. Subscribers notified automatically
 
 ## Incident Severity Levels
 
 ### Critical
-- Complete service outage
-- Affects all users
-- Requires immediate response
-- All hands on deck
+
+**Definition**: Complete service outage affecting all or most users
+
+**Characteristics**:
+- Core functionality completely unavailable
+- Revenue-impacting
+- Affects majority of customers
+- Requires immediate all-hands response
+- Page on-call team immediately
+
+**Examples**:
+- Website completely down
+- API returning 500 errors for all requests
+- Database offline
+- Authentication system failure
 
 ### High
-- Significant functionality impaired
-- Affects many users
-- Urgent response needed
-- Page on-call team
+
+**Definition**: Significant functionality impaired, many users affected
+
+**Characteristics**:
+- Major feature unavailable
+- Performance severely degraded
+- Subset of users cannot access service
+- Workarounds may exist but difficult
+- Urgent response required
+
+**Examples**:
+- Payment processing down
+- Search functionality broken
+- Slow API response times (> 5s)
+- Email delivery failures
 
 ### Medium
-- Some functionality affected
-- Affects subset of users
-- Should be addressed soon
-- Normal alerting
+
+**Definition**: Some functionality affected, limited user impact
+
+**Characteristics**:
+- Minor feature unavailable
+- Performance slightly degraded
+- Small percentage of users affected
+- Workarounds readily available
+- Standard response process
+
+**Examples**:
+- Image uploads slow
+- Report generation delayed
+- Non-critical API endpoint down
+- Email notifications delayed
 
 ### Low
-- Minor issues
-- Workarounds available
-- Can be addressed in normal flow
-- No urgent action required
+
+**Definition**: Minor issues with minimal impact
+
+**Characteristics**:
+- Cosmetic or UI issues
+- Non-critical functionality
+- Easy workarounds exist
+- Very few users affected
+- Can be addressed during business hours
+
+**Examples**:
+- Typo in UI text
+- Minor CSS styling issue
+- Non-critical widget not loading
+- Admin panel feature not working
+
+## Incident Status Lifecycle
+
+Incidents progress through these statuses:
+
+### 1. Open (Initial State)
+
+- Incident just detected or created
+- Team notified
+- Investigation beginning
+- First status shown on status page
+
+**Actions**: Review incident details, assign team member, begin investigation
+
+### 2. Investigating
+
+- Team actively investigating the issue
+- Root cause not yet identified
+- Gathering logs and metrics
+- Testing hypotheses
+
+**Actions**: Post investigation updates every 15-30 minutes, communicate findings
+
+### 3. Identified
+
+- Root cause has been identified
+- Solution/fix determined
+- Working on implementing fix
+- ETA may be available
+
+**Actions**: Share root cause, explain fix plan, provide timeline
+
+### 4. Monitoring
+
+- Fix has been deployed
+- Monitoring for stability
+- Waiting to confirm issue resolved
+- Not yet fully confident
+
+**Actions**: Watch metrics closely, update on progress, be ready to roll back
+
+### 5. Resolved
+
+- Issue completely fixed
+- Service fully operational
+- Confidence in stability
+- Incident closed
+
+**Actions**: Post resolution summary, conduct post-mortem, update prevention steps
+
+## Managing Active Incidents
+
+### Viewing Incident Details
+
+Click on any incident to see full details:
+
+**Incident Header**:
+- Incident number (e.g., `INC-00123`)
+- Current status badge
+- Severity indicator
+- Started time and duration
+- Assigned team member (if any)
+
+**Key Metrics**:
+- **Duration**: How long incident has been active
+- **MTTR**: Mean Time To Resolution (when resolved)
+- **Checks Failed**: Number of failed monitoring checks
+- **Checks Total**: Total checks during incident
+- **Impact**: Percentage of checks that failed
+
+**Affected Information**:
+- Monitor name and URL
+- Affected regions (which locations saw failures)
+- Status updates timeline
+- Check logs with detailed error information
+
+**Root Cause Analysis** (when identified):
+- Root cause category
+- Detailed description
+- Prevention steps
+- Who identified it and when
+
+### Posting Status Updates
+
+Keep customers informed with regular updates:
+
+**Creating an Update**:
+
+1. Open the incident
+2. Click **Post Update**
+3. Select update type:
+   - **Investigating**: We're looking into the issue
+   - **Identified**: We've found the cause
+   - **Monitoring**: Fix deployed, watching for stability
+   - **Update**: General progress update
+   - **Resolved**: Issue is fixed
+4. Add title (brief summary)
+5. Write detailed message (supports markdown)
+6. Mark as **Public** to show on status page
+7. Click **Post Update**
+
+**Update automatically**:
+- Appears in incident timeline
+- Updates status page in real-time
+- Notifies all subscribers via email
+- Updates incident status (if Investigating/Resolved type)
+- Timestamps with your identity
+
+**Best Practices for Updates**:
+- Update every 15-30 minutes during active incidents
+- Be specific about what you're doing
+- Include ETAs when possible ("investigating, update in 15 min")
+- Use plain language, avoid jargon
+- Admit what you don't know
+- Update when status changes
+
+### AI-Suggested Updates
+
+StatusApp can suggest update messages based on context:
+
+1. Click **Post Update**
+2. Click **Get Suggestions**
+3. Review AI-generated update suggestions
+4. Select one or edit to customize
+5. Post the update
+
+Suggestions consider:
+- Incident duration
+- Severity level
+- Previous updates
+- Monitor type and error details
+- Best practices for incident communication
+
+### Identifying Root Cause
+
+Document what caused the incident:
+
+**Adding Root Cause**:
+
+1. Open resolved or active incident
+2. Click **Identify Root Cause**
+3. Select root cause category:
+   - DNS Failure
+   - Network Timeout
+   - Server Error (5xx)
+   - Application Error
+   - Database Issue
+   - SSL Certificate
+   - Configuration Error
+   - Deployment Issue
+   - Third-Party Service
+   - Infrastructure
+   - DDoS Attack
+   - Maintenance
+   - Unknown
+4. Write detailed description (what specifically went wrong)
+5. Add prevention steps (how to avoid in future)
+6. Click **Save Root Cause**
+
+**Root Cause appears**:
+- In incident details
+- On public incident page (if incident is public)
+- In incident analytics
+- In post-mortem reports
+
+**AI Root Cause Suggestions**:
+
+Click **Get Suggestions** to see AI-analyzed likely causes based on:
+- Error patterns in check logs
+- Similar past incidents
+- Common failure modes for monitor type
+- Status codes and error messages
+
+### Resolving Incidents
+
+**Automatic Resolution**:
+
+Incidents auto-resolve when:
+- Monitor returns to operational state
+- Multiple consecutive successful checks
+- Confirms issue is truly fixed
+
+**Manual Resolution**:
+
+1. Post a **Resolved** status update
+2. Incident automatically marked as resolved
+3. Resolution time recorded
+4. MTTR calculated
+5. Subscribers notified
+6. Status page updated
+
+**Before Marking Resolved**:
+- Verify all symptoms have cleared
+- Confirm monitoring shows green
+- Check affected regions all recovered
+- Test critical user flows
+- Give it a few minutes to be confident
+
+**Resolution Summary Should Include**:
+- What was fixed
+- Why it happened
+- How long users were affected
+- Any remaining follow-up needed
+
+### Incident Assignment
+
+Assign incidents to team members for ownership:
+
+1. Open incident
+2. Look for **Assigned To** field
+3. Click to assign
+4. Select team member
+5. They receive notification
+6. Shows who's responsible on incident page
+
+Benefits:
+- Clear ownership
+- Avoid duplicate work
+- Track response accountability
+- Show customers someone's on it
 
 ## Incident Timeline
 
-### Key Metrics
+Each incident has a detailed timeline showing everything that happened:
 
-- **MTTD**: Mean Time To Detect (when you first notice)
-- **MTTI**: Mean Time To Identify (root cause)
-- **MTTR**: Mean Time To Resolve (time to fix)
-- **Total Duration**: From start to full resolution
+**Timeline Includes**:
 
-### Timeline View
+**Status Updates**:
+- All posted updates with timestamps
+- Who posted each update
+- Public vs internal updates
+- Full message content
 
-1. Each incident has timeline
-2. Shows all events in chronological order:
-   - Status changes
-   - Team updates
-   - Customer notifications
-   - Resolution actions
-   - Post-incident notes
+**Check Logs**:
+- All monitoring checks during incident
+- Success vs failure status
+- Status codes and error messages
+- Response times per check
+- Which regions failed
+- Timestamps for each check
 
-## Resolving Incidents
+**Key Events**:
+- Incident created
+- Status changes
+- Assignment changes
+- Root cause identified
+- Incident resolved
 
-### Before Marking Resolved
+**Timeline Filters**:
 
-1. Verify all affected services recovered
-2. Confirm monitoring is normal
-3. Run any post-incident tests
-4. Brief the team
-5. Plan post-mortem if needed
+Filter timeline to focus on specific events:
+- **All Events**: Everything chronologically
+- **Status Updates Only**: Just team communications
+- **Failed Checks Only**: Only failures
+- **Successful Checks Only**: Only passes
 
-### Marking as Resolved
+**Timeline Sorting**:
+- Newest first (default) - most recent at top
+- Oldest first - chronological from start
 
-1. Click incident
-2. Select status: **Resolved**
-3. Add final update with summary
-4. Include resolution details
-5. Post-mortem scheduling (optional)
-6. Notify all subscribers
+**Pagination**:
+- 50 events per page
+- Load more to see older events
+- Quick navigation to any page
 
-### Post-Incident Analysis
+## Incident Metrics & Analytics
 
-1. Schedule post-mortem meeting
-2. Invite relevant team members
-3. Discuss what happened:
-   - Detection time
-   - Response time
-   - Resolution process
-   - Communication effectiveness
+### Key Performance Indicators
 
-4. Identify improvements
-5. Create action items
-6. Set follow-up meetings
+**MTTR (Mean Time To Resolution)**:
+- Average time from incident start to resolution
+- Calculated across all resolved incidents
+- Lower is better
+- Track improvements over time
 
-## Incident Communication
+**Incident Frequency**:
+- Number of incidents per day/week/month
+- Trend analysis
+- Identify problem patterns
 
-### External Communication
+**Severity Distribution**:
+- How many critical vs low severity incidents
+- Are critical incidents decreasing?
 
-For public incidents:
-1. Update status page immediately
-2. Send email notification to subscribers
-3. Post to Slack channels
-4. Provide frequent updates (every 15-30 min)
-5. Explain impact on customers
-6. Give estimated resolution time
+**Top Failing Monitors**:
+- Which services have most incidents
+- Focus improvement efforts
 
-### Internal Communication
+**Common Root Causes**:
+- What causes incidents most frequently
+- Systemic issues to address
 
-1. Alert incident commander
-2. Page on-call team
-3. Post in incident Slack channel
-4. Update incident tracking
-5. Regular status updates
-6. Share findings/progress
+### Viewing Analytics
 
-### Customer Communication
+1. Navigate to **Incidents** page
+2. View dashboard showing:
+   - Total incidents
+   - Active incidents
+   - Average MTTR
+   - Incident frequency chart
+   - Severity breakdown
+   - Top root causes
+   - Most affected monitors
+3. Filter by date range
+4. Export data for further analysis
 
-- Be honest and transparent
-- Provide timely updates
-- Explain what you're doing
-- Give realistic ETAs
-- Apologize when appropriate
-- Follow up after resolution
+## Public Incident Pages
 
-## Tracking Incident History
+Make incidents visible to customers:
 
-### Incident List
+### Enabling Public Visibility
 
-View all incidents:
-1. Go to **Incidents**
-2. Filter by:
+**For Individual Incidents**:
+1. Open incident
+2. Check "Mark as Public" when creating
+3. Or edit existing incident to make public
+4. Incident appears on status page
+
+**Public incidents show**:
+- Incident number and start time
+- Current status
+- Affected service name
+- All public status updates
+- Resolution summary (when resolved)
+- Root cause (if shared publicly)
+
+**Status page integration**:
+- Active incidents section shows public incidents
+- Real-time updates as you post them
+- Incident history for transparency
+- Shareable incident URLs
+
+### Incident Communication
+
+**Email Notifications**:
+
+Subscribers automatically receive emails when:
+- New incident created
+- Status update posted (public updates only)
+- Incident resolved
+
+Email includes:
+- What's affected
+- Current status
+- Latest update message
+- Link to full incident page
+- Unsubscribe option
+
+**Status Page Updates**:
+
+Status page automatically reflects:
+- Monitor status (UP/DOWN/DEGRADED)
+- Active incidents section
+- Latest update message
+- Time since last update
+- Resolution when fixed
+
+## Incident History
+
+### Viewing Past Incidents
+
+1. Go to **Incidents** page
+2. Switch to **Resolved** tab
+3. Browse chronologically
+4. Filter by:
    - Date range
-   - Status
    - Severity
-   - Affected service
+   - Monitor
+   - Root cause category
+5. Search by incident number or text
 
-3. Sort by:
-   - Most recent
-   - Duration
-   - Severity
+### Learning from Incidents
 
-### Incident Search
+**Post-Mortem Process**:
 
-- Find by title
-- Search in descriptions
-- Filter by assignee
-- Filter by component
-- Filter by status
+After major incidents (High or Critical severity):
 
-### Incident Details
+1. **Document timeline**: What happened when
+2. **Identify root cause**: What went wrong and why
+3. **Document impact**: How many users affected, for how long
+4. **List detection gaps**: How could we detect faster
+5. **Prevention steps**: How to prevent recurrence
+6. **Action items**: Concrete steps to improve
+7. **Share learnings**: Team review, post to engineering blog
 
-Each incident page shows:
-- Full incident timeline
-- All communications
-- Resolution notes
-- Related monitors
-- Customer impact
-- Post-mortem link
+**Blameless Culture**:
+- Focus on systems, not people
+- Incidents are learning opportunities
+- Encourage transparency
+- Share mistakes openly
+- Turn failures into improvements
 
-## Bulk Incident Management
+### Incident Patterns
 
-### Bulk Actions
+Look for patterns in incident history:
 
-1. Select multiple incidents
-2. **Bulk Update**: Change status for all
-3. **Bulk Assign**: Assign to same person
-4. **Bulk Archive**: Hide old incidents
-5. **Bulk Delete**: Remove resolved incidents
+**Time-based patterns**:
+- Do incidents cluster at certain times?
+- Day of week trends
+- Before/after deployments
 
-### Incident Merging
+**Service patterns**:
+- Which monitors fail most often
+- Recurring issues
+- Correlated failures
 
-Merge related incidents:
-1. Select primary incident
-2. Click **Merge**
-3. Select incident to merge
-4. Combine timeline and updates
-5. Update affected components
-
-## Incident Templates
-
-### Creating Templates
-
-Save time with incident templates:
-
-1. Go to **Settings > Incident Templates**
-2. Click **Create Template**
-3. Set standard components
-4. Add template description
-5. Set default status
-6. Save template
-
-### Using Templates
-
-1. Create new incident
-2. Select template
-3. Auto-populate standard fields
-4. Customize as needed
-5. Save incident
-
-## Integration with Monitoring
-
-### Automatic Linking
-
-- Incidents automatically linked to triggering monitors
-- See which monitors caused incident
-- Track monitor health
-- Historical correlation
-
-### Monitor Status During Incident
-
-- Incidents show monitor status
-- Red highlighting for down monitors
-- Green highlighting when recovered
-- See status over time
+**Cause patterns**:
+- Most common root causes
+- Preventable vs unpreventable
+- External dependencies
 
 ## Best Practices
 
 ### Incident Response
 
-1. **Respond Quickly**: First update within 5 minutes
-2. **Be Transparent**: Share what you know
-3. **Over-Communicate**: Update frequently
-4. **Be Honest**: Explain limitations/unknowns
-5. **Follow Up**: Post-mortem and prevention
+**1. Respond Quickly**
+- Post first update within 5-15 minutes
+- Even if just "We're investigating"
+- Speed builds trust
+
+**2. Communicate Frequently**
+- Update every 15-30 minutes during active incidents
+- Even if no progress: "Still investigating, will update in 15 min"
+- Never go silent
+
+**3. Be Transparent**
+- Share what you know and what you don't
+- Admit mistakes honestly
+- Explain impact clearly
+- Give realistic ETAs
+
+**4. Use Clear Language**
+- Avoid technical jargon
+- Explain in customer terms
+- Be specific but understandable
+- "Payment processing is down" not "Stripe webhook handler crashed"
+
+**5. Own the Incident**
+- Take responsibility
+- Apologize when appropriate
+- Focus on fixing, not excuses
 
 ### Documentation
 
-1. Document all steps taken
-2. Record timeline of events
-3. Note root cause
-4. List preventive measures
-5. Archive for reference
+**During Incident**:
+- Document everything you try
+- Record times of key events
+- Save error messages and logs
+- Note who did what
 
-### Learning
+**After Resolution**:
+- Complete root cause analysis
+- Document prevention steps
+- Create action items
+- Update runbooks
+- Share post-mortem
 
-1. Hold blameless post-mortems
-2. Identify systemic issues
-3. Create action items
-4. Track follow-ups
-5. Share learnings
+### Prevention
+
+**Monitor Your Monitors**:
+- Ensure monitors catch issues before users
+- Test monitors regularly
+- Adjust thresholds based on incidents
+
+**Fix Root Causes**:
+- Don't just patch symptoms
+- Address underlying issues
+- Track action item completion
+
+**Learn and Improve**:
+- Review incidents quarterly
+- Identify systemic issues
+- Invest in reliability
+- Celebrate MTTR improvements
 
 ## Troubleshooting
 
 ### Incident Won't Resolve
-- Check all affected monitors
-- Verify manual recovery
-- Review recent changes
-- Restart monitors if needed
 
-### Incidents Not Creating
-- Verify auto-create is enabled
-- Check monitor status
-- Review monitor thresholds
-- Check grace period
+**Problem**: Incident showing as active but service is actually up
 
-### Communication Not Sending
-- Verify subscriber settings
-- Check notification channels
-- Review quiet hours
-- Test manually
+**Solutions**:
+1. Check if monitor is still failing
+2. Hard refresh incident page
+3. Manually post "Resolved" update
+4. Verify monitor configuration is correct
+5. Check if incident marked as false positive
 
-## Next Steps
+### Notifications Not Sending
 
-- Learn about [status pages](/articles/status-pages/creating-status-pages)
-- Set up [notifications](/articles/alerting-notifications/setting-up-notifications)
-- Review [analytics](/articles/analytics/understanding-analytics)
-- Explore [API](/articles/api/api-overview)
+**Problem**: Subscribers not receiving incident emails
+
+**Solutions**:
+1. Verify subscribers verified their email addresses
+2. Check status page has email subscriptions enabled
+3. Verify update marked as "Public"
+4. Check spam/junk folders
+5. Test with personal email address first
+6. Review email template configuration
+
+### Timeline Not Loading
+
+**Problem**: Incident timeline shows "Loading..." forever
+
+**Solutions**:
+1. Hard refresh page (Ctrl+F5 or Cmd+Shift+R)
+2. Clear browser cache
+3. Try different browser
+4. Check browser console for errors
+5. Contact support if persists
+
+### Cannot Post Updates
+
+**Problem**: "Post Update" button not working
+
+**Solutions**:
+1. Verify you're logged in
+2. Check you have permissions (team member)
+3. Fill in required fields (title and message)
+4. Try refreshing page
+5. Check browser console for errors
+
+## Advanced Features
+
+### Incident API Access
+
+(Professional, Business, Enterprise plans)
+
+Programmatically create and manage incidents:
+
+```bash
+# Get active incidents
+GET /api/v1/incidents?status=active
+
+# Get specific incident
+GET /api/v1/incidents/{incidentId}
+
+# Create incident (for integrations)
+POST /api/v1/incidents
+```
+
+See [API Reference](/articles/api/api-reference-guide) for full documentation.
+
+### Webhooks for Incidents
+
+(Business & Enterprise plans)
+
+Receive real-time incident notifications:
+
+**Webhook Events**:
+- `incident.created` - New incident detected
+- `incident.updated` - Status update posted
+- `incident.resolved` - Incident fixed
+- `incident.reopened` - Incident recurred
+
+Setup in **Settings → Notification Channels → Webhooks**.
+
+## Related Documentation
+
+- **[Creating Status Pages](/articles/status-pages/creating-status-pages)** - Share incidents with customers
+- **[Notification Channels](/articles/alerting-notifications/notification-channels-guide)** - Alert your team
+- **[Understanding Monitor Types](/articles/monitors/understanding-monitor-types)** - Configure monitors
+- **[Analytics Dashboard](/articles/analytics/understanding-analytics)** - Track incident metrics
+- **[API Reference](/articles/api/api-reference-guide)** - Programmatic incident management
+
+## Getting Help
+
+Need help with incident management?
+
+- **Documentation**: Browse this knowledge base
+- **Support**: support@statusapp.io
+- **Live Chat**: Available in dashboard (Business+ plans)
+- **Community**: community.statusapp.io
+
+## Quick Reference
+
+### Incident Lifecycle Checklist
+
+- [ ] Incident detected (automatic or manual)
+- [ ] First update posted within 15 minutes
+- [ ] Status set to "Investigating"
+- [ ] Updates every 15-30 minutes
+- [ ] Root cause identified
+- [ ] Status updated to "Identified"
+- [ ] Fix deployed
+- [ ] Status updated to "Monitoring"
+- [ ] Verify stability
+- [ ] Post "Resolved" update
+- [ ] Document root cause
+- [ ] Add prevention steps
+- [ ] Conduct post-mortem (if High/Critical)
+- [ ] Create action items
+- [ ] Share learnings
+
+### Status Update Frequency
+
+- **First update**: Within 5-15 minutes
+- **During investigation**: Every 15-30 minutes
+- **After identified**: Every 30-60 minutes
+- **During monitoring**: Every hour
+- **Final update**: Resolution summary
+
+### Communication Tone
+
+✅ **Good**: "We're experiencing issues with payment processing. Our team is investigating and will provide an update in 15 minutes."
+
+✅ **Good**: "We've identified the issue as a database connection pool exhaustion. Implementing fix now, expecting resolution within 30 minutes."
+
+✅ **Good**: "Issue resolved. Payment processing is back to normal. The root cause was a configuration error introduced in this morning's deployment."
+
+❌ **Bad**: "Website down. Checking..."
+
+❌ **Bad**: "Database crashed because intern pushed bad code lol"
+
+❌ **Bad**: "Still working on it" (after 60 minutes of silence)
