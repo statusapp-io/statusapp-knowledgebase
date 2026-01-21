@@ -1,103 +1,119 @@
 ---
-title: Creating Status Pages for Customers
+title: Creating Status Pages
 slug: creating-status-pages
 category: Status Pages
-excerpt: Learn how to create and customize public status pages to keep your customers informed about service status.
+excerpt: Build a public status page to communicate service status with customers.
 order: 3
 ---
 
-# Creating Status Pages for Customers
+# Creating Status Pages
 
 ## What is a Status Page?
 
-A status page is a public-facing website that displays real-time status information about your services. Status pages provide transparency to your customers by showing:
+A status page is a public-facing website that displays real-time status information about your services. It provides transparency to your customers by showing:
 
-- **Real-time Monitor Status** - Current operational state of all your services
-- **Incident History** - Timeline of past incidents and resolutions
-- **Active Incidents** - Ongoing issues with updates and ETAs
-- **Email Subscriptions** - Allow customers to receive incident notifications
-- **Monitor Groups** - Organized display of services by category
-- **Uptime Metrics** - Historical uptime percentages and availability
-- **Custom Branding** - Match your company's brand identity
+- **Service Status**: Current operational state of all monitored services
+- **Incidents**: Active issues with real-time updates
+- **History**: Past incidents and resolution timelines
+- **Uptime Metrics**: Historical availability and reliability
+- **Subscriptions**: Allow customers to receive notifications
 
 ## Why Use Status Pages?
 
 **Proactive Communication**
-- Inform customers before they experience issues
-- Reduce support tickets during incidents
-- Build trust through transparency
+- Customers see status before support tickets arrive
+- Reduces support burden during outages
+- Builds trust through transparency
 
 **Incident Management**
-- Centralized place to post incident updates
+- Centralized incident communication
 - Automatic notifications to subscribers
-- Historical incident tracking
+- Professional incident history
 
 **Professional Image**
-- Shows you take reliability seriously
 - Demonstrates operational maturity
-- Industry standard for SaaS companies
+- Industry standard for SaaS/hosted services
+- Shows reliability commitment
 
 ## Creating Your First Status Page
 
 ### Step 1: Navigate to Status Pages
 
-1. Log in to your StatusApp dashboard
-2. Click **Settings** in the left sidebar
+1. Log in to StatusApp dashboard
+2. Click **Settings** in sidebar
 3. Select **Status Pages**
 4. Click **Create New Status Page**
 
 ### Step 2: Basic Information
 
-**General Settings Tab**
+Enter basic page details:
 
-Fill in the basic information:
+**Name**: `Customer Status` or your brand name
+- Shows as browser tab title
+- Used in email notifications
+- Keep short and memorable
 
-**Page Name** (Required)
-- Public name shown to customers
-- Example: "Acme Services Status"
-- Keep it clear and professional
+**Slug**: `status` or `statuspage`
+- Used in URL: `yourcompany.com/status`
+- Must be unique
+- Only letters, numbers, hyphens
+- Can't be changed later (plan carefully)
 
-**Status Page URL Slug** (Required)
-- Creates your default URL: `statusapp.io/{slug}`
-- Use lowercase letters, numbers, and hyphens
-- Example: `acme-status` → `statusapp.io/acme-status`
+**Description**: Optional tagline
+- "Uptime and incident history for [Company] services"
+- Displays on status page
+- 100 characters max
 
-**Page Description** (Optional)
-- Brief description of what this status page covers
-- Example: "Real-time status of all Acme services"
-- Displayed at the top of your status page
+**Company Name**: Your organization name
+- Shows in header/branding
+- Used in notifications
+- Keep consistent with branding
 
-**Timezone**
-- Select your primary operating timezone
-- All incident times displayed in this timezone
-- Customers see times in their local timezone
+**Timezone**: Select primary operating timezone
+- All incident times in this timezone
+- Customers see in their local timezone
 
-### Step 3: Design Customization
+### Step 3: Design & Branding
 
+Customize appearance with your logo, brand color, and theme. See [Custom Domains](/articles/status-pages/custom-domains) for professional branding with your own domain.
 
-**Branding Options**
+### Step 4: Add Monitors
 
-**Logo** (Optional)
-- Upload your company logo (PNG, JPG, SVG)
-- Recommended size: 200×50 pixels
-- Displayed at the top of your status page
-- URL format supported for hosted logos
+1. Click **Add Monitor**
+2. Select monitors from list  
+3. Organize into groups
+4. Drag to reorder
+5. Save page
 
-**Brand Color** (Optional)
-- Primary color for your status page theme
-- Used for headers, buttons, and accents
-- Hex color code (e.g., `#3b82f6`)
-- Defaults to StatusApp blue if not set
+**Include**: Customer-facing production services only
+**Exclude**: Internal databases, staging environments, sensitive infrastructure
 
-**Custom Domain** (Business & Enterprise Plans)
-- Use your own domain: `status.yourdomain.com`
-- Requires DNS CNAME configuration
-- Free SSL certificate included
-- Setup covered in Custom Domain section below
+### Step 5: Publish
 
-**Visibility**
+1. Review all settings
+2. Click **Save**
+3. Status page is live at `statusapp.io/{slug}`
+4. Share URL with customers
 
-**Public vs Private**
+## Monitor Groups
+
+Organize monitors into logical groups:
+
+```
+Web Platform
+├─ Website
+├─ API
+└─ Dashboard
+
+Payment Services
+├─ Payment Processing
+├─ Billing
+└─ Invoicing
+```
+
+Groups help customers quickly find relevant services.
+
+## Status Page Content
 - **Public**: Anyone can view the status page
 - **Private**: Only accessible via direct link (not indexed)
 
