@@ -145,7 +145,7 @@ Create incidents manually for issues not automatically detected:
 - Typo in UI text
 - Minor CSS styling issue
 - Non-critical widget not loading
-- Admin panel feature not working
+- Non-critical dashboard feature not working
 
 ## Incident Status Lifecycle
 
