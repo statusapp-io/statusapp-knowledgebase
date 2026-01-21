@@ -233,8 +233,8 @@ Now that you've set up your first monitor, explore these guides to get the most 
 - **[Incident Management Basics](/help/knowledge-base/incident-lifecycle)** - Learn how to manage and resolve incidents effectively
 - **[Setting Up Notifications](/help/knowledge-base/notification-channels-overview)** - Configure advanced notification channels and alert routing
 - **[Understanding Analytics](/help/knowledge-base/understanding-analytics)** - Interpret uptime metrics and performance trends
-- **[API Reference Guide](/help/knowledge-base/api/api-reference-guide)** - Access StatusApp programmatically via our REST API
-- **[Understanding Billing Plans](/help/knowledge-base/billing-plans/understanding-billing-plans)** - Learn about plans, features, and pricing
+- **[API Reference Guide](/help/knowledge-base/api-reference-guide)** - Access StatusApp programmatically via our REST API
+- **[Understanding Billing Plans](/help/knowledge-base/understanding-billing-plans)** - Learn about plans, features, and pricing
 
 ## Need Help?
 

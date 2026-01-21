@@ -210,7 +210,7 @@ Slack works well combined with:
 
 ## Next Steps
 
-- Learn about [Discord notifications](/help/knowledge-base/alerting-notifications/discord-notifications)
+- Learn about [Discord notifications](/help/knowledge-base/discord-notifications)
 - Set up [SMS alerts](/help/knowledge-base/sms-notifications) for critical escalation
 - Explore [PagerDuty integration](/help/knowledge-base/pagerduty-integration) for on-call
 - Return to [Notification Channels Overview](/help/knowledge-base/notification-channels-overview)

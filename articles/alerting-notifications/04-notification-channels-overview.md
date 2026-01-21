@@ -28,14 +28,14 @@ StatusApp's notification system separates **where alerts are sent** from **which
 
 - **[Email Notifications](/help/knowledge-base/email-notifications)** - HTML-formatted emails with full context
 - **[Slack](/help/knowledge-base/slack-notifications)** - Real-time alerts in Slack with threading
-- **[Discord](/help/knowledge-base/alerting-notifications/discord-notifications)** - Rich embeds in Discord channels
-- **[Telegram](/help/knowledge-base/alerting-notifications/telegram-notifications)** - Mobile-first messaging
+- **[Discord](/help/knowledge-base/discord-notifications)** - Rich embeds in Discord channels
+- **[Telegram](/help/knowledge-base/telegram-notifications)** - Mobile-first messaging
 
 ### Escalation & Incident Management
 
 - **[PagerDuty](/help/knowledge-base/pagerduty-integration)** - On-call management and escalation (Pro+)
-- **[Opsgenie](/help/knowledge-base/alerting-notifications/opsgenie-integration)** - Alert management with routing (Pro+)
-- **[Microsoft Teams](/help/knowledge-base/alerting-notifications/teams-notifications)** - Teams adaptive cards (Pro+)
+- **[Opsgenie](/help/knowledge-base/opsgenie-integration)** - Alert management with routing (Pro+)
+- **[Microsoft Teams](/help/knowledge-base/teams-notifications)** - Teams adaptive cards (Pro+)
 
 ### Direct Alerts
 
@@ -43,7 +43,7 @@ StatusApp's notification system separates **where alerts are sent** from **which
 
 ### Custom Integration
 
-- **[Webhooks](/help/knowledge-base/alerting-notifications/webhook-notifications)** - Custom HTTP endpoints for any integration
+- **[Webhooks](/help/knowledge-base/webhook-notifications)** - Custom HTTP endpoints for any integration
 
 ## Creating a Channel
 
@@ -283,5 +283,5 @@ Keep a reference of:
 - **[Email Notifications](/help/knowledge-base/email-notifications)** - Set up email alerts
 - **[Slack Integration](/help/knowledge-base/slack-notifications)** - Connect Slack
 - **[PagerDuty Integration](/help/knowledge-base/pagerduty-integration)** - On-call management
-- **[Incident Management](/help/knowledge-base/incidents/incident-management-basics)** - Handle incidents when they occur
-- **[Team Collaboration](/help/knowledge-base/team-collaboration/team-collaboration)** - Coordinate with your team
+- **[Incident Management](/help/knowledge-base/incident-management-basics)** - Handle incidents when they occur
+- **[Team Collaboration](/help/knowledge-base/team-collaboration)** - Coordinate with your team
