@@ -31,10 +31,6 @@ Each article is a JSON file with the following structure:
 }
 ```
 
-## Importing Articles
-
-To import articles from this repository into StatusApp, use the import function in the Admin Dashboard under Knowledge Base Management.
-
 ## Contributing
 
 Articles are maintained by the StatusApp team. For suggestions or updates, please contact support@statusapp.io.
