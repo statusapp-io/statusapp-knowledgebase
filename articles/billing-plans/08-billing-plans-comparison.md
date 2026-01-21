@@ -298,6 +298,6 @@ Enable annual billing in **Settings → Billing** when upgrading.
 
 ## Next Steps
 
-- **[Billing FAQ & Upgrades](/articles/billing-plans/billing-faq)** - Answers to common billing questions
-- **[Getting Started](/articles/getting-started/getting-started-with-statusapp)** - Start monitoring
-- **[Team Collaboration](/articles/team-collaboration/team-collaboration)** - Add team members
+- **[Billing FAQ & Upgrades](/help/knowledge-base/billing-plans/billing-faq)** - Answers to common billing questions
+- **[Getting Started](/help/knowledge-base/getting-started/getting-started-with-statusapp)** - Start monitoring
+- **[Team Collaboration](/help/knowledge-base/team-collaboration/team-collaboration)** - Add team members

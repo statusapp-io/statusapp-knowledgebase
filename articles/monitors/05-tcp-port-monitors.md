@@ -268,7 +268,7 @@ API Monitor: https://api.example.com/health
 
 ## Next Steps
 
-- **[HTTP Monitors](/articles/monitors/http-website-monitors)** - Monitor websites and web apps
-- **[API Monitors](/articles/monitors/api-monitors)** - Monitor REST APIs
-- **[DNS Monitors](/articles/monitors/dns-monitors)** - Monitor domain name resolution
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
+- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - Monitor websites and web apps
+- **[API Monitors](/help/knowledge-base/api-monitors)** - Monitor REST APIs
+- **[DNS Monitors](/help/knowledge-base/dns-monitors)** - Monitor domain name resolution
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts

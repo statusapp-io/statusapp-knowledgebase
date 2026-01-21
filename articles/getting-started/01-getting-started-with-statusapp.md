@@ -228,13 +228,13 @@ Collaborate effectively by inviting team members:
 
 Now that you've set up your first monitor, explore these guides to get the most out of StatusApp:
 
-- **[Understanding Monitor Types](/articles/monitors/understanding-monitor-types)** - Learn about all available monitor types and when to use each one
-- **[Creating Status Pages](/articles/status-pages/creating-status-pages)** - Set up public status pages for your services
-- **[Incident Management Basics](/articles/incidents/incident-management-basics)** - Learn how to manage and resolve incidents effectively
-- **[Setting Up Notifications](/articles/alerting-notifications/notification-channels-guide)** - Configure advanced notification channels and alert routing
-- **[Understanding Analytics](/articles/analytics/understanding-analytics)** - Interpret uptime metrics and performance trends
-- **[API Reference Guide](/articles/api/api-reference-guide)** - Access StatusApp programmatically via our REST API
-- **[Understanding Billing Plans](/articles/billing-plans/understanding-billing-plans)** - Learn about plans, features, and pricing
+- **[Understanding Monitor Types](/help/knowledge-base/monitor-types-overview)** - Learn about all available monitor types and when to use each one
+- **[Creating Status Pages](/help/knowledge-base/creating-status-pages)** - Set up public status pages for your services
+- **[Incident Management Basics](/help/knowledge-base/incident-lifecycle)** - Learn how to manage and resolve incidents effectively
+- **[Setting Up Notifications](/help/knowledge-base/notification-channels-overview)** - Configure advanced notification channels and alert routing
+- **[Understanding Analytics](/help/knowledge-base/understanding-analytics)** - Interpret uptime metrics and performance trends
+- **[API Reference Guide](/help/knowledge-base/api/api-reference-guide)** - Access StatusApp programmatically via our REST API
+- **[Understanding Billing Plans](/help/knowledge-base/billing-plans/understanding-billing-plans)** - Learn about plans, features, and pricing
 
 ## Need Help?
 

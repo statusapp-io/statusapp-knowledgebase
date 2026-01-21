@@ -14,25 +14,25 @@ StatusApp supports multiple specialized monitor types for different use cases. C
 
 | Type | Best For | Key Feature |
 |------|----------|-------------|
-| **[HTTP/Website](/articles/monitors/http-website-monitors)** | Websites, web apps | Simple availability check |
-| **[API](/articles/monitors/api-monitors)** | REST APIs | Auth, assertions, multi-step |
-| **[TCP/Port](/articles/monitors/tcp-port-monitors)** | Databases, services | Check port availability |
-| **[DNS](/articles/monitors/dns-monitors)** | Domain resolution | Verify DNS records |
-| **[SSL Certificate](/articles/monitors/ssl-certificate-monitors)** | HTTPS sites | Track expiration dates |
-| **[Heartbeat/Cron](/articles/monitors/heartbeat-monitors)** | Scheduled jobs | Reverse monitoring |
-| **[GraphQL](/articles/monitors/graphql-monitors)** | GraphQL APIs | Query/mutation validation |
+| **[HTTP/Website](/help/knowledge-base/http-website-monitors)** | Websites, web apps | Simple availability check |
+| **[API](/help/knowledge-base/api-monitors)** | REST APIs | Auth, assertions, multi-step |
+| **[TCP/Port](/help/knowledge-base/tcp-port-monitors)** | Databases, services | Check port availability |
+| **[DNS](/help/knowledge-base/dns-monitors)** | Domain resolution | Verify DNS records |
+| **[SSL Certificate](/help/knowledge-base/ssl-certificate-monitors)** | HTTPS sites | Track expiration dates |
+| **[Heartbeat/Cron](/help/knowledge-base/heartbeat-monitors)** | Scheduled jobs | Reverse monitoring |
+| **[GraphQL](/help/knowledge-base/graphql-monitors)** | GraphQL APIs | Query/mutation validation |
 
 ## Quick Selector
 
 **Not sure which type?**
 
-- **Is it a website?** → [HTTP/Website](/articles/monitors/http-website-monitors)
-- **Is it an API?** → [API](/articles/monitors/api-monitors)
-- **Is it a database or service port?** → [TCP/Port](/articles/monitors/tcp-port-monitors)
-- **Is it a domain name?** → [DNS](/articles/monitors/dns-monitors)
-- **Is it an HTTPS certificate?** → [SSL Certificate](/articles/monitors/ssl-certificate-monitors)
-- **Is it a scheduled job?** → [Heartbeat](/articles/monitors/heartbeat-monitors)
-- **Is it a GraphQL endpoint?** → [GraphQL](/articles/monitors/graphql-monitors)
+- **Is it a website?** → [HTTP/Website](/help/knowledge-base/http-website-monitors)
+- **Is it an API?** → [API](/help/knowledge-base/api-monitors)
+- **Is it a database or service port?** → [TCP/Port](/help/knowledge-base/tcp-port-monitors)
+- **Is it a domain name?** → [DNS](/help/knowledge-base/dns-monitors)
+- **Is it an HTTPS certificate?** → [SSL Certificate](/help/knowledge-base/ssl-certificate-monitors)
+- **Is it a scheduled job?** → [Heartbeat](/help/knowledge-base/heartbeat-monitors)
+- **Is it a GraphQL endpoint?** → [GraphQL](/help/knowledge-base/graphql-monitors)
 
 ## Multi-Region Monitoring
 
@@ -144,8 +144,8 @@ All monitor types include:
 
 ## Next Steps
 
-- **[HTTP/Website Monitors](/articles/monitors/http-website-monitors)** - Monitor websites and web apps
-- **[API Monitors](/articles/monitors/api-monitors)** - Monitor REST APIs with auth and assertions
-- **[Heartbeat Monitors](/articles/monitors/heartbeat-monitors)** - Monitor scheduled jobs
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track performance metrics
+- **[HTTP/Website Monitors](/help/knowledge-base/http-website-monitors)** - Monitor websites and web apps
+- **[API Monitors](/help/knowledge-base/api-monitors)** - Monitor REST APIs with auth and assertions
+- **[Heartbeat Monitors](/help/knowledge-base/heartbeat-monitors)** - Monitor scheduled jobs
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track performance metrics

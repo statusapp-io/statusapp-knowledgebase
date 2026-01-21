@@ -156,7 +156,7 @@ Email works well combined with:
 
 ## Next Steps
 
-- Learn about [Slack notifications](/articles/alerting-notifications/slack-notifications)
-- Set up [SMS alerts](/articles/alerting-notifications/sms-notifications) for critical monitors
-- Explore [PagerDuty integration](/articles/alerting-notifications/pagerduty-integration) for on-call management
-- Return to [Notification Channels Overview](/articles/alerting-notifications/notification-channels-guide)
+- Learn about [Slack notifications](/help/knowledge-base/slack-notifications)
+- Set up [SMS alerts](/help/knowledge-base/sms-notifications) for critical monitors
+- Explore [PagerDuty integration](/help/knowledge-base/pagerduty-integration) for on-call management
+- Return to [Notification Channels Overview](/help/knowledge-base/notification-channels-overview)

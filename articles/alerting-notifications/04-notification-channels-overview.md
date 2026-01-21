@@ -26,24 +26,24 @@ StatusApp's notification system separates **where alerts are sent** from **which
 
 ### Communication Channels
 
-- **[Email Notifications](/articles/alerting-notifications/email-notifications)** - HTML-formatted emails with full context
-- **[Slack](/articles/alerting-notifications/slack-notifications)** - Real-time alerts in Slack with threading
-- **[Discord](/articles/alerting-notifications/discord-notifications)** - Rich embeds in Discord channels
-- **[Telegram](/articles/alerting-notifications/telegram-notifications)** - Mobile-first messaging
+- **[Email Notifications](/help/knowledge-base/email-notifications)** - HTML-formatted emails with full context
+- **[Slack](/help/knowledge-base/slack-notifications)** - Real-time alerts in Slack with threading
+- **[Discord](/help/knowledge-base/alerting-notifications/discord-notifications)** - Rich embeds in Discord channels
+- **[Telegram](/help/knowledge-base/alerting-notifications/telegram-notifications)** - Mobile-first messaging
 
 ### Escalation & Incident Management
 
-- **[PagerDuty](/articles/alerting-notifications/pagerduty-integration)** - On-call management and escalation (Pro+)
-- **[Opsgenie](/articles/alerting-notifications/opsgenie-integration)** - Alert management with routing (Pro+)
-- **[Microsoft Teams](/articles/alerting-notifications/teams-notifications)** - Teams adaptive cards (Pro+)
+- **[PagerDuty](/help/knowledge-base/pagerduty-integration)** - On-call management and escalation (Pro+)
+- **[Opsgenie](/help/knowledge-base/alerting-notifications/opsgenie-integration)** - Alert management with routing (Pro+)
+- **[Microsoft Teams](/help/knowledge-base/alerting-notifications/teams-notifications)** - Teams adaptive cards (Pro+)
 
 ### Direct Alerts
 
-- **[SMS](/articles/alerting-notifications/sms-notifications)** - Text message alerts to phones
+- **[SMS](/help/knowledge-base/sms-notifications)** - Text message alerts to phones
 
 ### Custom Integration
 
-- **[Webhooks](/articles/alerting-notifications/webhook-notifications)** - Custom HTTP endpoints for any integration
+- **[Webhooks](/help/knowledge-base/alerting-notifications/webhook-notifications)** - Custom HTTP endpoints for any integration
 
 ## Creating a Channel
 
@@ -280,8 +280,8 @@ Keep a reference of:
 
 ## Next Steps
 
-- **[Email Notifications](/articles/alerting-notifications/email-notifications)** - Set up email alerts
-- **[Slack Integration](/articles/alerting-notifications/slack-notifications)** - Connect Slack
-- **[PagerDuty Integration](/articles/alerting-notifications/pagerduty-integration)** - On-call management
-- **[Incident Management](/articles/incidents/incident-management-basics)** - Handle incidents when they occur
-- **[Team Collaboration](/articles/team-collaboration/team-collaboration)** - Coordinate with your team
+- **[Email Notifications](/help/knowledge-base/email-notifications)** - Set up email alerts
+- **[Slack Integration](/help/knowledge-base/slack-notifications)** - Connect Slack
+- **[PagerDuty Integration](/help/knowledge-base/pagerduty-integration)** - On-call management
+- **[Incident Management](/help/knowledge-base/incidents/incident-management-basics)** - Handle incidents when they occur
+- **[Team Collaboration](/help/knowledge-base/team-collaboration/team-collaboration)** - Coordinate with your team

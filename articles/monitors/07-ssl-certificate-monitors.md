@@ -334,6 +334,6 @@ Together: Complete HTTPS monitoring
 
 ## Next Steps
 
-- **[HTTP Monitors](/articles/monitors/http-website-monitors)** - Combine with HTTP monitoring
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track certificate metrics
+- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - Combine with HTTP monitoring
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track certificate metrics

@@ -351,6 +351,6 @@ Messages stop working if:
 
 ## Next Steps
 
-- **[Slack](/articles/alerting-notifications/slack-notifications)** - Slack alternative
-- **[SMS](/articles/alerting-notifications/sms-notifications)** - SMS for critical alerts
-- **[Notification Overview](/articles/alerting-notifications/notification-channels-overview)** - All channels
+- **[Slack](/help/knowledge-base/slack-notifications)** - Slack alternative
+- **[SMS](/help/knowledge-base/sms-notifications)** - SMS for critical alerts
+- **[Notification Overview](/help/knowledge-base/notification-channels-overview)** - All channels

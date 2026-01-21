@@ -290,7 +290,7 @@ Test website from multiple geographic locations:
 
 ## SSL Certificate Monitoring
 
-While HTTP monitors check website availability, also set up [SSL Certificate Monitors](/articles/monitors/ssl-certificate-monitors) to track certificate expiration.
+While HTTP monitors check website availability, also set up [SSL Certificate Monitors](/help/knowledge-base/ssl-certificate-monitors) to track certificate expiration.
 
 Combined approach:
 - **HTTP Monitor**: Website availability (every 5 min)
@@ -298,8 +298,8 @@ Combined approach:
 
 ## Next Steps
 
-- **[API Monitors](/articles/monitors/api-monitors)** - For advanced REST API testing
-- **[Heartbeat Monitors](/articles/monitors/heartbeat-monitors)** - For scheduled job monitoring
-- **[SSL Certificates](/articles/monitors/ssl-certificate-monitors)** - Monitor certificate expiration
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track performance over time
+- **[API Monitors](/help/knowledge-base/api-monitors)** - For advanced REST API testing
+- **[Heartbeat Monitors](/help/knowledge-base/heartbeat-monitors)** - For scheduled job monitoring
+- **[SSL Certificates](/help/knowledge-base/ssl-certificate-monitors)** - Monitor certificate expiration
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track performance over time

@@ -75,7 +75,7 @@ Enter basic page details:
 
 ### Step 3: Design & Branding
 
-Customize appearance with your logo, brand color, and theme. See [Custom Domains](/articles/status-pages/custom-domains) for professional branding with your own domain.
+Customize appearance with your logo, brand color, and theme. See [Custom Domains](/help/knowledge-base/custom-domains) for professional branding with your own domain.
 
 ### Step 4: Add Monitors
 
@@ -770,11 +770,11 @@ Upgrade your plan at **Settings → Billing → Plans**.
 
 ## Next Steps
 
-- **[Getting Started](/articles/getting-started/getting-started-with-statusapp)** - New to StatusApp? Start here
-- **[Understanding Monitor Types](/articles/monitors/understanding-monitor-types)** - Configure monitors for your status page
-- **[Incident Management](/articles/incidents/incident-management-basics)** - Learn incident management best practices
-- **[Notification Channels](/articles/alerting-notifications/notification-channels-guide)** - Set up alerting for your team
-- **[Understanding Billing](/articles/billing-plans/understanding-billing-plans)** - Plan features and pricing
+- **[Getting Started](/help/knowledge-base/getting-started-with-statusapp)** - New to StatusApp? Start here
+- **[Understanding Monitor Types](/help/knowledge-base/monitor-types-overview)** - Configure monitors for your status page
+- **[Incident Management](/help/knowledge-base/incident-lifecycle)** - Learn incident management best practices
+- **[Notification Channels](/help/knowledge-base/notification-channels-overview)** - Set up alerting for your team
+- **[Understanding Billing](/help/knowledge-base/billing-plans-comparison)** - Plan features and pricing
 
 ## Getting Help
 

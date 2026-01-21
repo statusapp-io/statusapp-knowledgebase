@@ -392,6 +392,6 @@ Together: Complete backup monitoring
 
 ## Next Steps
 
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts when jobs miss
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track job execution patterns
-- **[HTTP Monitors](/articles/monitors/http-website-monitors)** - Monitor services that jobs interact with
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts when jobs miss
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track job execution patterns
+- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - Monitor services that jobs interact with

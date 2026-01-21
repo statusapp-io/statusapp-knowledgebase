@@ -395,6 +395,6 @@ A: Status page reverts to StatusApp domain immediately. You can re-add custom do
 
 ## Next Steps
 
-- **[Creating Status Pages](/articles/status-pages/creating-status-pages)** - Set up your status page
-- **[Embedding Status Pages](/articles/status-pages/embedding-status-pages)** - Embed on your website
-- **[Incidents](/articles/incidents/incident-management-basics)** - Manage incidents on status page
+- **[Creating Status Pages](/help/knowledge-base/creating-status-pages)** - Set up your status page
+- **[Embedding Status Pages](/help/knowledge-base/status-pages/embedding-status-pages)** - Embed on your website
+- **[Incidents](/help/knowledge-base/incidents/incident-management-basics)** - Manage incidents on status page

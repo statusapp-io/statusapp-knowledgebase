@@ -371,8 +371,8 @@ Validate: $.token exists
 
 ## Next Steps
 
-- **[HTTP Monitors](/articles/monitors/http-website-monitors)** - For website monitoring
-- **[Heartbeat Monitors](/articles/monitors/heartbeat-monitors)** - For scheduled jobs
-- **[TCP Monitors](/articles/monitors/tcp-port-monitors)** - For database/service monitoring
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track performance
+- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - For website monitoring
+- **[Heartbeat Monitors](/help/knowledge-base/heartbeat-monitors)** - For scheduled jobs
+- **[TCP Monitors](/help/knowledge-base/tcp-port-monitors)** - For database/service monitoring
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track performance

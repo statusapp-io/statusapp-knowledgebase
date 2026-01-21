@@ -375,7 +375,7 @@ Look for these patterns:
 
 ## Next Steps
 
-- Learn about [incident management](/articles/incidents/incident-management-basics)
-- Set up [alerts](/articles/alerting-notifications/notification-channels-guide)
-- Create [status pages](/articles/status-pages/creating-status-pages)
-- Explore [API](/articles/api/api-overview)
+- Learn about [incident management](/help/knowledge-base/incident-lifecycle)
+- Set up [alerts](/help/knowledge-base/notification-channels-overview)
+- Create [status pages](/help/knowledge-base/creating-status-pages)
+- Explore [API](/help/knowledge-base/api-reference-guide)

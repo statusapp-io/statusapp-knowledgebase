@@ -438,6 +438,6 @@ Explains what happened and prevents future incidents
 
 ## Next Steps
 
-- **[Incident Communication](/articles/incidents/incident-communication)** - Best practices for customer communication
-- **[Status Pages](/articles/status-pages/creating-status-pages)** - Display incidents publicly
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Alert your team
+- **[Incident Communication](/help/knowledge-base/incident-communication)** - Best practices for customer communication
+- **[Status Pages](/help/knowledge-base/creating-status-pages)** - Display incidents publicly
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Alert your team

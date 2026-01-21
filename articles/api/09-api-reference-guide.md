@@ -770,7 +770,7 @@ Need help with the API?
 
 ## Next Steps
 
-- **[Getting Started](/articles/getting-started/getting-started-with-statusapp)** - Set up your first monitor
-- **[Understanding Monitor Types](/articles/monitors/understanding-monitor-types)** - Learn about monitor configuration
-- **[Setting Up Notifications](/articles/alerting-notifications/notification-channels-guide)** - Configure alerts
-- **[Team Collaboration](/articles/team-collaboration/team-collaboration)** - Manage team access and API keys
+- **[Getting Started](/help/knowledge-base/getting-started-with-statusapp)** - Set up your first monitor
+- **[Understanding Monitor Types](/help/knowledge-base/monitor-types-overview)** - Learn about monitor configuration
+- **[Setting Up Notifications](/help/knowledge-base/notification-channels-overview)** - Configure alerts
+- **[Team Collaboration](/help/knowledge-base/team-collaboration)** - Manage team access and API keys

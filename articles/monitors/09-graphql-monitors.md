@@ -603,6 +603,6 @@ Use `Response time < Xms` assertion to enforce performance SLAs.
 
 ## Next Steps
 
-- **[API Monitors](/articles/monitors/api-monitors)** - HTTP/REST API monitoring alternative
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
-- **[Analytics](/articles/analytics/understanding-analytics)** - Track query performance
+- **[API Monitors](/help/knowledge-base/api-monitors)** - HTTP/REST API monitoring alternative
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts
+- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track query performance

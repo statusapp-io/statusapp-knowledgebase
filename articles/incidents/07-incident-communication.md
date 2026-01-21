@@ -518,6 +518,6 @@ Bad: No preventive measures taken
 
 ## Next Steps
 
-- **[Incident Lifecycle](/articles/incidents/incident-lifecycle)** - How incidents progress
-- **[Status Pages](/articles/status-pages/creating-status-pages)** - Publish incidents publicly
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Alert your team
+- **[Incident Lifecycle](/help/knowledge-base/incident-lifecycle)** - How incidents progress
+- **[Status Pages](/help/knowledge-base/creating-status-pages)** - Publish incidents publicly
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Alert your team

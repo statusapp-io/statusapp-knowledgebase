@@ -624,6 +624,6 @@ Embedding available on:
 
 ## Next Steps
 
-- **[Creating Status Pages](/articles/status-pages/creating-status-pages)** - Set up your status page
-- **[Custom Domains](/articles/status-pages/custom-domains)** - Use your own domain
-- **[Incidents](/articles/incidents/incident-management-basics)** - Manage status page incidents
+- **[Creating Status Pages](/help/knowledge-base/creating-status-pages)** - Set up your status page
+- **[Custom Domains](/help/knowledge-base/status-pages/custom-domains)** - Use your own domain
+- **[Incidents](/help/knowledge-base/incidents/incident-management-basics)** - Manage status page incidents

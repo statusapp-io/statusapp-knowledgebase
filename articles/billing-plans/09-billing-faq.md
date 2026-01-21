@@ -363,6 +363,6 @@ For billing questions or issues:
 
 ## Next Steps
 
-- **[Billing Plans](/articles/billing-plans/billing-plans-comparison)** - Compare plans and features
-- **[Getting Started](/articles/getting-started/getting-started-with-statusapp)** - Start monitoring
-- **[Team Management](/articles/team-collaboration/team-collaboration)** - Add team members
+- **[Billing Plans](/help/knowledge-base/billing-plans/billing-plans-comparison)** - Compare plans and features
+- **[Getting Started](/help/knowledge-base/getting-started/getting-started-with-statusapp)** - Start monitoring
+- **[Team Management](/help/knowledge-base/team-collaboration/team-collaboration)** - Add team members

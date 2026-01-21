@@ -204,6 +204,6 @@ SMS works best combined with:
 
 ## Next Steps
 
-- Learn about [PagerDuty integration](/articles/alerting-notifications/pagerduty-integration) for sophisticated on-call escalation
-- Explore [Slack notifications](/articles/alerting-notifications/slack-notifications) for team coordination
-- Return to [Notification Channels Overview](/articles/alerting-notifications/notification-channels-guide)
+- Learn about [PagerDuty integration](/help/knowledge-base/pagerduty-integration) for sophisticated on-call escalation
+- Explore [Slack notifications](/help/knowledge-base/slack-notifications) for team coordination
+- Return to [Notification Channels Overview](/help/knowledge-base/notification-channels-overview)

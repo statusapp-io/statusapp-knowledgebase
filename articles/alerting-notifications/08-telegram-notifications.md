@@ -433,6 +433,6 @@ Deleted bots stop accepting messages immediately.
 
 ## Next Steps
 
-- **[SMS](/articles/alerting-notifications/sms-notifications)** - SMS for critical alerts
-- **[Discord](/articles/alerting-notifications/discord-notifications)** - Discord alternative
-- **[Notification Overview](/articles/alerting-notifications/notification-channels-overview)** - All channels
+- **[SMS](/help/knowledge-base/sms-notifications)** - SMS for critical alerts
+- **[Discord](/help/knowledge-base/alerting-notifications/discord-notifications)** - Discord alternative
+- **[Notification Overview](/help/knowledge-base/notification-channels-overview)** - All channels

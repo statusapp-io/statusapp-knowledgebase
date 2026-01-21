@@ -430,6 +430,6 @@ Currently passes: Service name, message, severity, link to incident.
 
 ## Next Steps
 
-- **[PagerDuty](/articles/alerting-notifications/pagerduty-integration)** - PagerDuty alternative
-- **[Notification Overview](/articles/alerting-notifications/notification-channels-overview)** - All channels
-- **[Setting Up Notifications](/articles/alerting-notifications/notification-channels-guide)** - How to assign channels
+- **[PagerDuty](/help/knowledge-base/pagerduty-integration)** - PagerDuty alternative
+- **[Notification Overview](/help/knowledge-base/notification-channels-overview)** - All channels
+- **[Setting Up Notifications](/help/knowledge-base/notification-channels-overview)** - How to assign channels

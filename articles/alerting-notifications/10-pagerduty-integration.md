@@ -250,6 +250,6 @@ PagerDuty + other channels for complete coverage:
 
 ## Next Steps
 
-- Learn about [SMS notifications](/articles/alerting-notifications/sms-notifications) for backup alerts
-- Explore [Slack notifications](/articles/alerting-notifications/slack-notifications) for team coordination
-- Return to [Notification Channels Overview](/articles/alerting-notifications/notification-channels-guide)
+- Learn about [SMS notifications](/help/knowledge-base/sms-notifications) for backup alerts
+- Explore [Slack notifications](/help/knowledge-base/slack-notifications) for team coordination
+- Return to [Notification Channels Overview](/help/knowledge-base/notification-channels-overview)

@@ -334,6 +334,6 @@ Alert: If unexpected subdomains appear
 
 ## Next Steps
 
-- **[HTTP Monitors](/articles/monitors/http-website-monitors)** - Monitor websites after DNS verification
-- **[SSL Monitors](/articles/monitors/ssl-certificate-monitors)** - Monitor HTTPS certificates
-- **[Notifications](/articles/alerting-notifications/notification-channels-overview)** - Set up alerts
+- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - Monitor websites after DNS verification
+- **[SSL Monitors](/help/knowledge-base/ssl-certificate-monitors)** - Monitor HTTPS certificates
+- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts

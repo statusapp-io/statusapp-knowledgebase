@@ -446,6 +446,6 @@ Use different notification channels to route to each platform.
 
 ## Next Steps
 
-- **[Slack](/articles/alerting-notifications/slack-notifications)** - Slack alternative
-- **[Discord](/articles/alerting-notifications/discord-notifications)** - Discord alternative
-- **[Notification Overview](/articles/alerting-notifications/notification-channels-overview)** - All channels
+- **[Slack](/help/knowledge-base/slack-notifications)** - Slack alternative
+- **[Discord](/help/knowledge-base/alerting-notifications/discord-notifications)** - Discord alternative
+- **[Notification Overview](/help/knowledge-base/notification-channels-overview)** - All channels
