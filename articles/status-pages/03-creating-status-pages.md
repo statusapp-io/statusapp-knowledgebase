@@ -92,8 +92,12 @@ Customize appearance with your logo, brand color, and theme. See [Custom Domains
 
 1. Review all settings
 2. Click **Save**
-3. Status page is live at `statusapp.io/{slug}`
+3. Status page is live at your configured URL
 4. Share URL with customers
+
+**Status Page URLs**:
+- Default: `https://statusapp.io/{your-slug}`
+- Custom domain (Business+): `https://status.yourdomain.com`
 
 ## Monitor Groups
 
@@ -755,16 +759,18 @@ Access analytics:
 
 Status page features vary by plan:
 
-| Feature | Free | Starter | Pro | Business | Enterprise |
-|---------|------|---------|-----|----------|------------|
-| Status Pages | 0 | 1 | 5 | Unlimited | Unlimited |
-| Monitors per Page | - | 10 | 25 | 50 | Unlimited |
-| Custom Domain | ✗ | ✗ | ✗ | ✓ | ✓ |
-| Email Templates | ✗ | ✗ | ✗ | ✓ | ✓ |
-| Monitor Groups | ✗ | ✓ | ✓ | ✓ | ✓ |
-| Subscriber Limit | - | 100 | 1,000 | 10,000 | Unlimited |
-| White Label | ✗ | ✗ | ✗ | ✗ | ✓ |
-| API Access | ✗ | ✗ | ✓ | ✓ | ✓ |
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Status Pages | 1 | 3-5 | Unlimited | Unlimited |
+| Monitors per Page | Plan-based | Plan-based | Unlimited | Unlimited |
+| Custom Domain | ✗ | Plan-based | ✓ | ✓ |
+| Email Templates | Plan-based | ✓ | ✓ | ✓ |
+| Monitor Groups | ✓ | ✓ | ✓ | ✓ |
+| Subscribers | Plan-based | Plan-based | Plan-based | Unlimited |
+| White Label | ✗ | ✗ | ✗ | ✓ |
+| API Access | ✓ | ✓ | ✓ | ✓ |
+
+**Note**: "Plan-based" means limits depend on your specific plan configuration. Check your current limits at **Settings → Plan**.
 
 Upgrade your plan at **Settings → Billing → Plans**.
 

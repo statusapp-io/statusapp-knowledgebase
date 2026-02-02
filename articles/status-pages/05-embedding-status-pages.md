@@ -603,24 +603,33 @@ IFrames have minimal impact:
 Get status data via API for custom integration:
 
 ```javascript
-fetch('https://statusapp.io/api/v1/pages/your-slug')
+// Fetch status page data
+fetch('https://ops.statusapp.io/api/v1/status-pages', {
+  headers: {
+    'X-API-Key': 'your_api_key'
+  }
+})
   .then(r => r.json())
   .then(data => {
     // Use status data
-    console.log(data.monitors);
+    console.log(data);
   });
 ```
 
-See API documentation for full details.
+See the [API Reference Guide](/help/knowledge-base/api-reference-guide) for full details.
 
 ## Plan Limits
 
-Embedding available on:
-- **Free**: ✗ Widget only (limited)
-- **Starter**: ✓ Full widget
-- **Pro**: ✓ Widget + IFrame
-- **Business**: ✓ Widget + IFrame
-- **Enterprise**: ✓ Widget + IFrame + API
+Embedding availability by plan:
+
+| Plan | Widget | IFrame | API |
+|------|--------|--------|-----|
+| Starter | ✓ | ✓ | ✓ |
+| Professional | ✓ | ✓ | ✓ |
+| Business | ✓ | ✓ | ✓ |
+| Enterprise | ✓ | ✓ | ✓ |
+
+All plans include embedding capabilities and API access.
 
 ## Next Steps
 

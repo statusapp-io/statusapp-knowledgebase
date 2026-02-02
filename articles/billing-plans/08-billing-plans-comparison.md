@@ -2,302 +2,471 @@
 title: Billing Plans & Features
 slug: billing-plans-comparison
 category: Billing Plans
-excerpt: Compare StatusApp pricing plans and their features to find the right fit.
+excerpt: Compare StatusApp pricing plans and their features to find the right fit for your monitoring needs.
 order: 8
 ---
 
 # Billing Plans & Features
 
+## Plan Overview
+
+StatusApp offers flexible pricing tiers designed to scale with your monitoring needs. All plans are configured dynamically through our platform, allowing for customization to meet specific requirements.
+
 ## Available Plans
-
-StatusApp offers five pricing tiers designed to scale with your monitoring needs:
-
-### Free Plan
-
-**Price**: $0/month
-
-**Core Limits**:
-- 1 monitor
-- 5-minute check interval
-- Single region monitoring
-- 7-day data retention
-- 1 team member
-
-**Features**:
-- Email notifications only
-- Basic support
-- No status pages
-- Limited API access
-
-**Best For**: Testing the platform, personal projects, learning StatusApp
 
 ### Starter Plan
 
-**Price**: Starting at $19/month
+**Best For**: Small teams getting started with monitoring
 
-**Core Limits**:
-- Up to 10 monitors
-- 1-minute check interval
-- Multi-region monitoring (3 regions)
-- 30-day data retention
-- 5 team members
+**Core Features**:
+- Monitor count based on plan configuration
+- Check intervals starting at 60 seconds minimum
+- Multi-region monitoring from configured locations
+- Data retention based on plan settings
+- Team member seats included
 
-**Features**:
-- Email & Slack notifications
-- 1 status page
-- Standard support
-- Monitor groups
-- Basic analytics
+**Notification Channels**:
+- Email alerts (included on all plans)
+- Slack integration (plan-dependent)
+- Additional channels based on plan tier
 
-**Best For**: Small teams, getting started with monitoring
+**Key Capabilities**:
+- HTTP/HTTPS website monitoring
+- Ping (ICMP) monitoring
+- DNS record monitoring
+- Heartbeat/CRON monitoring
+- Domain monitoring
+- SSL certificate monitoring
+- API access
 
 ### Professional Plan
 
-**Price**: Starting at $79/month
+**Best For**: Growing companies with multiple services
 
-**Core Limits**:
-- Up to 50 monitors
-- 30-second check interval
-- Multi-region monitoring (5 regions)
-- 90-day data retention
-- 25 team members
+**Everything in Starter, plus**:
+- More monitors
+- Faster check intervals (30 seconds minimum available)
+- More monitoring regions
+- Extended data retention
+- More team members
 
-**Features**:
-- All notification types (Email, Slack, SMS, Discord, Telegram, PagerDuty, Opsgenie, Teams, Webhooks)
-- 5 status pages
-- Custom domains
-- API access (5,000 requests/hour)
-- Advanced analytics
-- Custom headers & assertions
-- Response validation
-- Incident templates
-
-**Best For**: Growing companies, multiple services, advanced monitoring needs
+**Additional Features**:
+- SMS notifications
+- All notification integrations (Discord, Telegram, etc.)
+- PagerDuty integration
+- OpsGenie integration
+- Custom webhooks
+- API monitoring with authentication
+- Port/TCP monitoring
+- GraphQL monitoring
+- Performance metrics
+- Custom domains for status pages
 
 ### Business Plan
 
-**Price**: Starting at $299/month
+**Best For**: Organizations with SLA requirements
 
-**Core Limits**:
-- Up to 150 monitors
-- 10-second check interval
-- Multi-region monitoring (10 regions)
-- 1-year data retention
-- 100 team members
+**Everything in Professional, plus**:
+- Higher monitor limits
+- Faster check intervals (10 seconds minimum)
+- All monitoring regions
+- Extended data retention (1 year)
+- Larger team capacity
 
-**Features**:
-- Everything in Professional, plus:
-- Unlimited status pages
-- White-label status pages
-- Custom webhooks
-- API access (50,000 requests/hour)
-- Priority support
-- Advanced role-based access control
-- SLA monitoring
-- Uptime guarantees
-
-**Best For**: Mid-market, production-critical services, SLA requirements
+**Enterprise Features**:
+- Advanced analytics
+- Custom dashboards
+- Scheduled reports
+- Maintenance windows
+- Incident management
+- Escalation rules
+- Root cause analysis
+- Performance budgets
+- SLA tracking and compliance
+- Role-based access control (RBAC)
 
 ### Enterprise Plan
 
-**Price**: Custom pricing
+**Best For**: Large organizations with complex requirements
 
-**Core Limits**:
+**Everything in Business, plus**:
 - Unlimited monitors
-- 5-second minimum interval
-- All regions
+- Custom check intervals (as low as 5 seconds)
 - Unlimited data retention
 - Unlimited team members
 
-**Features**:
-- Everything in Business, plus:
-- Dedicated account manager
-- Custom integrations
-- On-premise/private cloud options
-- 99.99% SLA
-- Custom support SLA
-- Advanced security features
+**Premium Features**:
 - SSO/SAML authentication
-- Compliance certifications (SOC 2, HIPAA, etc.)
+- Audit logs
+- White-labeling
+- Private monitoring locations
+- Dedicated account manager
+- Priority support
+- Custom SLA
+- Onboarding and training included
 
-**Best For**: Enterprise organizations, compliance requirements, mission-critical systems
+### Custom Plan
 
-## Feature Comparison Table
+**Best For**: Organizations needing tailored solutions
 
-| Feature | Free | Starter | Pro | Business | Enterprise |
-|---------|------|---------|-----|----------|------------|
-| **Monitoring** |
-| Monitors | 1 | 10 | 50 | 150 | Unlimited |
-| Check Interval | 5 min | 1 min | 30 sec | 10 sec | 5 sec |
-| Regions | 1 | 3 | 5 | 10 | All |
-| Data Retention | 7 days | 30 days | 90 days | 1 year | Unlimited |
-| **Notifications** |
-| Email | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Slack | ✗ | ✓ | ✓ | ✓ | ✓ |
-| SMS | ✗ | ✗ | ✓ | ✓ | ✓ |
-| PagerDuty | ✗ | ✗ | ✓ | ✓ | ✓ |
-| All Channels | ✗ | ✗ | ✓ | ✓ | ✓ |
-| **Status Pages** |
-| Status Pages | 0 | 1 | 5 | Unlimited | Unlimited |
-| Custom Domain | ✗ | ✗ | ✗ | ✓ | ✓ |
-| White Label | ✗ | ✗ | ✗ | ✓ | ✓ |
-| **Team** |
-| Team Members | 1 | 5 | 25 | 100 | Unlimited |
-| Roles | Basic | Basic | Full RBAC | Full RBAC | Full RBAC |
-| **Advanced** |
-| API Access | Limited | ✗ | 5K/hr | 50K/hr | Unlimited |
-| Custom Headers | ✗ | ✗ | ✓ | ✓ | ✓ |
-| Assertions | ✗ | ✗ | ✓ | ✓ | ✓ |
-| Webhooks | ✗ | ✗ | ✗ | ✓ | ✓ |
-| **Support** |
-| Support Tier | Community | Standard | Standard | Priority | Dedicated |
-| SLA Guarantee | ✗ | ✗ | ✗ | 99.99% | 99.99% |
+Our Custom Plan allows you to configure exactly what you need:
 
-## Choosing the Right Plan
+**Configurable Options**:
+- Number of monitors
+- Team member seats
+- Check interval minimums
+- Data retention period
+- Number of status pages
 
-### Free Plan
-- Testing and learning
-- Personal projects
-- Non-critical services
-- Development/staging
+**Feature Add-ons**:
+- SMS alerts
+- Slack integration
+- Priority support
+- Custom domains
+- Multi-region monitoring
+- API access
 
-### Starter Plan
-- First monitors in production
-- Small teams (< 5 people)
-- 5-15 services
-- Basic notification needs
+---
 
-### Professional Plan
-- Growing monitoring needs
-- Teams of 10-25 people
-- 30-50+ services
-- Multiple notification types
-- Multiple status pages
+## Feature Comparison
 
-### Business Plan
-- 50-150 services
-- Teams of 50+ people
-- Compliance/SLA requirements
-- Advanced customization
-- Production-critical systems
+### Monitoring Capabilities
 
-### Enterprise Plan
-- 150+ services
-- Large organizations
-- Complex compliance needs
-- Custom integrations
-- Mission-critical infrastructure
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Website/HTTP Monitoring | Yes | Yes | Yes | Yes |
+| Ping Monitoring | Yes | Yes | Yes | Yes |
+| DNS Monitoring | Yes | Yes | Yes | Yes |
+| Heartbeat/CRON | Yes | Yes | Yes | Yes |
+| Domain Monitoring | Yes | Yes | Yes | Yes |
+| SSL Certificate | Yes | Yes | Yes | Yes |
+| API Monitoring | Plan-based | Yes | Yes | Yes |
+| Port/TCP Monitoring | Plan-based | Yes | Yes | Yes |
+| GraphQL Monitoring | Plan-based | Yes | Yes | Yes |
+| Server Monitoring | No | Plan-based | Yes | Yes |
 
-## Seats and Team Members
+### Notification Channels
 
-Each plan includes a number of team member seats:
+| Channel | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Email | Yes | Yes | Yes | Yes |
+| Slack | Plan-based | Yes | Yes | Yes |
+| Discord | Plan-based | Yes | Yes | Yes |
+| Telegram | Plan-based | Yes | Yes | Yes |
+| SMS | No | Yes | Yes | Yes |
+| PagerDuty | No | Yes | Yes | Yes |
+| OpsGenie | No | Yes | Yes | Yes |
+| Microsoft Teams | Plan-based | Yes | Yes | Yes |
+| Custom Webhooks | Plan-based | Yes | Yes | Yes |
 
-**Included Seats**:
-- Free: 1 person
-- Starter: 5 people
-- Professional: 25 people
-- Business: 100 people
-- Enterprise: Unlimited
+### Analytics & Reporting
 
-**Additional Seats**:
-- Available to add on any paid plan
-- $10/seat/month typical pricing
-- Billed with next payment
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Basic Analytics | Yes | Yes | Yes | Yes |
+| Performance Metrics | No | Yes | Yes | Yes |
+| Advanced Analytics | No | No | Yes | Yes |
+| Custom Dashboards | No | No | Yes | Yes |
+| Scheduled Reports | No | No | Yes | Yes |
+| Filter Templates | No | No | Yes | Yes |
 
-**Managing Seats**:
-1. Go to **Settings → Billing → Team**
-2. See current seat usage
-3. Add/remove team members as needed
-4. Changes apply immediately
+### Operations
 
-## Monitor Limits
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Public Status Pages | Yes | Yes | Yes | Yes |
+| Custom Domains | No | Plan-based | Yes | Yes |
+| Maintenance Windows | No | No | Yes | Yes |
+| Incident Management | No | No | Yes | Yes |
+| Escalation Rules | No | No | Yes | Yes |
+| Root Cause Analysis | No | No | Yes | Yes |
+| SLA Management | No | No | Yes | Yes |
 
-Check intervals vary by plan to ensure system performance:
+### Team & Security
 
-**Free Plan**: 5-minute intervals
-- Checks run every 5 minutes
-- 288 checks/day per monitor
-- Suitable for non-critical monitoring
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Team Members | Limited | More | Many | Unlimited |
+| Role-Based Access | Basic | Basic | Full RBAC | Full RBAC |
+| API Access | Yes | Yes | Yes | Yes |
+| SSO/SAML | No | No | No | Yes |
+| Audit Logs | No | No | No | Yes |
+| White-Labeling | No | No | No | Yes |
 
-**Starter Plan**: 1-minute intervals
-- Checks run every 1 minute
-- 1,440 checks/day per monitor
-- Good for most use cases
+### Support
 
-**Professional Plan**: 30-second intervals
-- Checks run every 30 seconds
-- 2,880 checks/day per monitor
-- Better granularity for production
+| Feature | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|------------|
+| Support Level | Standard | Standard | Priority | Dedicated |
+| Dedicated Account Manager | No | No | No | Yes |
+| Onboarding | No | No | No | Yes |
+| Training | No | No | No | Yes |
 
-**Business Plan**: 10-second intervals
-- Checks run every 10 seconds
-- 8,640 checks/day per monitor
-- Real-time monitoring
+---
 
-**Enterprise Plan**: Custom (as low as 5 seconds)
-- Highly granular monitoring
-- Custom intervals per monitor
-- Maximum precision
+## Rate Limits by Plan
+
+API rate limits are enforced per hour:
+
+| Plan | API Requests/Hour |
+|------|-------------------|
+| Starter | 1,000 |
+| Professional | 5,000 |
+| Business | 10,000 |
+| Enterprise | 100,000 |
+
+---
+
+## Monitor Types by Plan
+
+### Available on All Plans
+
+- **WEBSITE** - HTTP/HTTPS website availability
+- **PING** - ICMP connectivity checks
+- **DNS** - DNS record monitoring
+- **CRON/Heartbeat** - Scheduled job monitoring
+- **DOMAIN** - Domain expiry and health
+- **SSL_CERT** - SSL certificate expiration
+
+### Professional and Above
+
+- **API** - REST API monitoring with authentication
+- **PORT** - TCP/UDP port monitoring
+- **GRAPHQL** - GraphQL endpoint monitoring
+
+### Business and Above
+
+- **SERVER** - Server metrics and health monitoring
+
+---
+
+## Check Intervals
+
+Minimum check intervals vary by plan:
+
+| Plan | Minimum Interval |
+|------|------------------|
+| Starter | 60 seconds |
+| Professional | 30 seconds |
+| Business | 10 seconds |
+| Enterprise | 5 seconds (or custom) |
+
+**Recommended Intervals**:
+- **Critical Production Services**: 30-60 seconds
+- **Standard Production**: 2-5 minutes
+- **Non-Critical Services**: 5-15 minutes
+- **Heartbeat/CRON Jobs**: Match your job schedule
+
+---
 
 ## Data Retention
 
-Historical data available by plan:
+How long historical data is kept:
 
-**Free**: 7 days
-- Recent data only
-- Limited historical analysis
+| Plan | Retention Period |
+|------|------------------|
+| Starter | 30 days |
+| Professional | 90 days |
+| Business | 1 year |
+| Enterprise | Unlimited |
 
-**Starter**: 30 days
-- Monthly trends visible
-- Sufficient for most cases
+**What's Retained**:
+- Check results and response times
+- Incident history and logs
+- Performance metrics
+- Analytics data
+- Audit logs (Enterprise)
 
-**Professional**: 90 days
-- Quarterly analysis
-- Uptime tracking for 3 months
+---
 
-**Business**: 1 year
-- Full year of history
-- Annual trending
-- SLA calculations
+## Status Pages
 
-**Enterprise**: Unlimited
-- Complete history
-- Compliance/archival needs
+| Plan | Status Pages | Custom Domains |
+|------|--------------|----------------|
+| Starter | 1 | No |
+| Professional | 3-5 | Plan-based |
+| Business | Unlimited | Yes |
+| Enterprise | Unlimited | Yes |
 
-## Regional Availability
+**Status Page Features**:
+- Public or private visibility
+- Custom branding (logo, colors)
+- Monitor grouping
+- Subscriber notifications
+- Incident communication
+- Uptime history display
 
-Monitoring from different geographic regions:
+---
 
-**Free**: 1 region (US)
-- Single check location
+## Team Members & Roles
 
-**Starter**: 3 regions
-- US, Europe, Asia-Pacific
+### Included Seats
 
-**Professional**: 5 regions
-- Additional regional coverage
-- Better global detection
+| Plan | Team Members |
+|------|--------------|
+| Starter | 1-5 |
+| Professional | 5-25 |
+| Business | 25-100 |
+| Enterprise | Unlimited |
 
-**Business**: 10 regions
-- Extensive global coverage
-- Regional outage detection
+### Role Types
 
-**Enterprise**: All regions
-- Complete global monitoring
-- Custom region preferences
+| Role | Description |
+|------|-------------|
+| **OWNER** | Full access, billing control |
+| **ADMIN** | Manage team, all resources |
+| **MEMBER** | Create and manage monitors |
+| **VIEWER** | Read-only access |
 
-## Annual Billing Discount
+---
 
-Save 20% when paying annually:
+## Billing Cycles
 
-**Starter**: $19/month → $182.40/year (saves ~$45)
-**Professional**: $79/month → $758.40/year (saves ~$190)
-**Business**: $299/month → $2,870.40/year (saves ~$718)
+### Available Options
 
-Enable annual billing in **Settings → Billing** when upgrading.
+- **Monthly**: Pay month-to-month
+- **Annual**: Save with yearly billing
+- **Biennial**: 2-year commitment discount
+- **Triennial**: 3-year commitment discount
+
+### Annual Discount
+
+Annual billing typically saves 10-20% compared to monthly billing.
+
+---
+
+## Custom Plans
+
+For organizations that need a tailored solution:
+
+### Configurable Quantities
+
+- Number of monitors (10-1000+)
+- Team member seats (3-unlimited)
+- Check interval minimum (5-300 seconds)
+- Data retention period (30 days - unlimited)
+- Status page count (1-unlimited)
+
+### Add-on Features
+
+Each feature can be enabled independently:
+- SMS notifications
+- Slack integration
+- Priority support
+- Custom domains
+- Multi-region monitoring
+- API access
+
+### Pricing
+
+Custom plan pricing is calculated based on:
+1. Base quantity selections
+2. Enabled features
+3. Billing cycle discount
+
+Contact sales for a custom quote.
+
+---
+
+## Choosing the Right Plan
+
+### Starter Plan
+- Just getting started with monitoring
+- Small team (1-5 people)
+- Basic alerting needs
+- Limited budget
+
+### Professional Plan
+- Growing monitoring needs
+- Need advanced integrations
+- Multiple notification channels
+- API monitoring requirements
+
+### Business Plan
+- SLA requirements
+- Large team (25+ people)
+- Compliance needs
+- Advanced analytics
+- Incident management
+
+### Enterprise Plan
+- Large organization
+- Complex security requirements
+- SSO/SAML needed
+- Dedicated support required
+- Custom integrations
+
+---
+
+## Upgrading & Downgrading
+
+### Upgrading
+
+- Instant access to new features
+- Prorated billing for remainder of cycle
+- No data loss
+- Existing configurations preserved
+
+### Downgrading
+
+- Takes effect at next billing cycle
+- Features exceeding new plan limits will be disabled
+- Data retention adjusts to new plan limits
+- Monitors exceeding limits will need to be removed
+
+### Custom Plan Changes
+
+Custom plan configurations can be modified:
+- Add monitors or team members
+- Enable additional features
+- Adjust check intervals
+- Extend data retention
+
+---
+
+## Billing & Payment
+
+### Payment Methods
+
+- Credit/Debit Card
+- Bank Transfer (Enterprise)
+- PayPal
+- Stripe
+
+### Invoice Access
+
+Access invoices at **Settings > Billing**:
+- View payment history
+- Download PDF invoices
+- Update billing details
+
+### Billing Address
+
+Required for invoicing:
+- Company name (for business accounts)
+- Billing address
+- Country
+- VAT number (if applicable)
+
+---
+
+## Account Status
+
+Your account can have the following statuses:
+
+| Status | Description |
+|--------|-------------|
+| **ENABLED** | Normal active account |
+| **DISABLED** | Account disabled (payment issues) |
+| **ON_HOLD** | Temporarily suspended |
+| **ARREARS** | Payment overdue |
+| **CLOSED** | Account permanently closed |
+
+---
 
 ## Next Steps
 
-- **[Billing FAQ & Upgrades](/help/knowledge-base/billing-faq)** - Answers to common billing questions
-- **[Getting Started](/help/knowledge-base/getting-started-with-statusapp)** - Start monitoring
-- **[Team Collaboration](/help/knowledge-base/team-collaboration)** - Add team members
+- **[Billing FAQ](/help/knowledge-base/billing-faq)** - Common billing questions
+- **[Getting Started](/help/knowledge-base/getting-started-with-statusapp)** - Set up your first monitor
+- **[Team Collaboration](/help/knowledge-base/team-collaboration)** - Manage your team
+- **[API Reference](/help/knowledge-base/api-reference-guide)** - Programmatic access

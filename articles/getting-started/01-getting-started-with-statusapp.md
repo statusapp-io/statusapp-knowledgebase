@@ -25,12 +25,12 @@ StatusApp is an enterprise-grade monitoring platform that helps you track the he
 After signing in, you'll see your main dashboard with several key sections:
 
 - **Dashboard**: Real-time overview of all your monitors, incidents, and system health
-- **Monitors**: Create and manage all your monitoring checks (HTTP, API, DNS, Port, SSL, Heartbeat)
-- **Incidents**: Track detected incidents and their resolution status
+- **Monitors**: Create and manage all your monitoring checks (HTTP, API, DNS, Port, SSL, Heartbeat, GraphQL, Domain, Server)
+- **Incidents**: Track detected incidents and their resolution status with full lifecycle management
 - **Status Pages**: Create public status pages to keep customers informed about service health
-- **Analytics**: View detailed performance metrics, response times, and uptime statistics
-- **Notification Channels**: Configure how and where you receive alerts (Email, Slack, Discord, etc.)
-- **Settings**: Configure your account, billing, team members, and integrations
+- **Analytics**: View detailed performance metrics, response times, uptime statistics, and MTTR tracking
+- **Notification Channels**: Configure how and where you receive alerts (Email, Slack, Discord, Telegram, SMS, PagerDuty, OpsGenie, Microsoft Teams, Webhooks)
+- **Settings**: Configure your account, billing, team members, API keys, and integrations
 
 ## Creating Your First Monitor
 
@@ -39,13 +39,15 @@ After signing in, you'll see your main dashboard with several key sections:
 StatusApp supports multiple monitor types to suit different monitoring needs:
 
 1. **WEBSITE (HTTP/HTTPS)** - Monitor website availability and response codes
-2. **API** - Monitor REST API endpoints with authentication, schema validation, and assertions
-3. **GraphQL** - Monitor GraphQL endpoints with query validation
+2. **API** - Monitor REST API endpoints with authentication, assertions, and response validation
+3. **GraphQL** - Monitor GraphQL endpoints with query and mutation validation
 4. **PING (ICMP)** - Monitor server connectivity and network latency
-5. **PORT** - Monitor TCP/UDP ports (databases, SSH, mail servers, etc.)
-6. **DNS** - Monitor DNS resolution and record validation  
-7. **SSL_CERT** - Monitor SSL certificate expiration dates
-8. **CRON (Heartbeat)** - Monitor scheduled jobs and background tasks
+5. **PORT (TCP/UDP)** - Monitor TCP/UDP ports (databases, SSH, mail servers, Redis, etc.)
+6. **DNS** - Monitor DNS resolution and record validation (A, AAAA, CNAME, MX, TXT)
+7. **SSL_CERT** - Monitor SSL certificate expiration with configurable warning days
+8. **CRON (Heartbeat)** - Monitor scheduled jobs and background tasks via reverse pings
+9. **DOMAIN** - Monitor domain expiration, WHOIS changes, and blacklist status
+10. **SERVER** - Monitor server resources (CPU, memory, disk) with agent installation
 
 ### Basic Monitor Setup
 
@@ -54,9 +56,10 @@ StatusApp supports multiple monitor types to suit different monitoring needs:
 3. Enter a **name** for your monitor (e.g., "My Website - Production")
 4. Enter the **URL** to monitor (e.g., `https://example.com`)
 5. Set the **check interval** (how often to check):
-   - **Starter Plan**: 5 minutes minimum
-   - **Professional Plan**: 1 minute minimum
-   - **Business Plan**: 30 seconds minimum
+   - **Starter Plan**: 60 seconds minimum
+   - **Professional Plan**: 30 seconds minimum
+   - **Business Plan**: 10 seconds minimum
+   - **Enterprise Plan**: 5 seconds minimum (or custom)
 
 ### Advanced Monitor Configuration
 
@@ -124,10 +127,10 @@ StatusApp uses a flexible notification channel system that lets you configure wh
 - Get chat ID for your group or channel
 - Markdown-formatted messages
 
-#### SMS Alerts (Paid Plans)
+#### SMS Alerts (Professional+)
 - Add your phone number with country code
 - Receive critical alerts via SMS
-- Available on Starter plans and above
+- Available on Professional plans and above
 
 #### Advanced Integrations
 - **PagerDuty**: Create incidents and trigger on-call escalations
@@ -149,19 +152,20 @@ You can assign different notification channels to different monitors, allowing f
 
 When a monitor detects a problem, StatusApp automatically creates an incident:
 
-- **Automatic Detection**: Incidents are created when monitors fail based on your configuration
+- **Automatic Detection**: Incidents are created when monitors fail based on your confirmation threshold
 - **Severity Levels**: Incidents are categorized as LOW, MEDIUM, HIGH, or CRITICAL
-- **Status Tracking**: Track incidents from detection through resolution
-- **MTTR Metrics**: View Mean Time To Recovery for performance analysis
-- **Root Cause Analysis**: Document root causes to prevent future incidents
-- **Status Updates**: Post updates to keep stakeholders informed
+- **Status Lifecycle**: INVESTIGATING → IDENTIFIED → MONITORING → RESOLVED
+- **MTTR Tracking**: Automatic Mean Time To Resolution calculation
+- **Root Cause Categories**: Categorize incidents (DNS, Network, Server, Application, Database, SSL, Configuration, Deployment, Third-Party, Infrastructure, DDoS, Maintenance)
+- **Status Updates**: Post public or private updates to keep stakeholders informed
 
 Incidents can be managed from the **Incidents** dashboard where you can:
-- View all active and resolved incidents
-- Add comments and status updates
+- View all active and resolved incidents with filtering
+- Add comments and status updates (public or private)
 - Assign incidents to team members
-- Document root causes and preventive measures
-- Export incident reports
+- Document root causes and prevention steps
+- Track affected regions and failed checks
+- Mark false positives or maintenance incidents
 
 ## Best Practices for New Users
 

@@ -45,11 +45,16 @@ HTTP response code that indicates success:
 
 ## Authentication
 
-### Bearer Token (JWT/OAuth)
-For token-based authentication:
+StatusApp supports multiple authentication types for API monitors:
+
+### None
+No authentication required (public endpoints).
+
+### Bearer Token
+For JWT or OAuth token-based authentication:
 
 **Setup**:
-1. In **Authentication** section, select **Bearer Token**
+1. In **Authentication** section, select **Bearer**
 2. Enter your token
 3. Automatically added as `Authorization: Bearer <token>`
 
@@ -62,7 +67,7 @@ Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 Username and password:
 
 **Setup**:
-1. Select **Basic Auth**
+1. Select **Basic**
 2. Enter username
 3. Enter password
 4. Automatically encoded in header
@@ -70,7 +75,7 @@ Username and password:
 **Behind the scenes**: Converts to `Authorization: Basic <base64>`
 
 ### API Key
-Custom header-based authentication:
+Custom header or query parameter authentication:
 
 **Setup**:
 1. Select **API Key**
@@ -84,8 +89,31 @@ Header: X-API-Key
 Value: sk_live_abc123xyz
 ```
 
+### OAuth 2.0
+For OAuth 2.0 flows:
+
+**Supported Grant Types**:
+- Client Credentials
+- Password (Resource Owner)
+- Refresh Token
+
+**Setup**:
+1. Select **OAuth2**
+2. Enter Token URL
+3. Enter Client ID and Client Secret
+4. Select grant type
+5. StatusApp automatically fetches and refreshes tokens
+
+### JWT (Custom)
+For custom JWT authentication with a specific prefix:
+
+**Setup**:
+1. Select **JWT**
+2. Enter your JWT token
+3. Optionally specify custom header prefix
+
 ### Custom Headers
-Any other authentication needs:
+For any other authentication needs, add custom headers:
 
 ```
 Authorization: Signature keyId="12",algorithm="hmac-sha256",signature="..."

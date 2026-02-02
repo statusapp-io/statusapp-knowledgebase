@@ -296,14 +296,18 @@ To go back to StatusApp domain:
 
 ## Plan Requirements
 
-Custom domains available on:
-- **Free**: ✗ Not available
-- **Starter**: ✗ Not available
-- **Pro**: ✗ Not available
-- **Business**: ✓ Available
-- **Enterprise**: ✓ Available
+Custom domains availability by plan:
 
-Upgrade to Business or Enterprise plan to use custom domains.
+| Plan | Custom Domains |
+|------|----------------|
+| Starter | ✗ Not available |
+| Professional | Plan-based (check your plan) |
+| Business | ✓ Available |
+| Enterprise | ✓ Available |
+
+**Note**: Custom domain availability on Professional plans depends on your specific plan configuration. Check **Settings → Plan** to see your enabled features.
+
+Upgrade to Business or Enterprise plan for guaranteed custom domain access.
 
 ## Best Practices
 

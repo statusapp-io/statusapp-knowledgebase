@@ -266,17 +266,19 @@ Keep a reference of:
 
 ## Channel Types by Plan
 
-| Channel | Free | Starter | Professional | Business | Enterprise |
-|---------|------|---------|--------------|----------|-----------|
-| Email | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Slack | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Discord | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Telegram | ✓ | ✓ | ✓ | ✓ | ✓ |
-| SMS | ✗ | ✓ | ✓ | ✓ | ✓ |
-| PagerDuty | ✗ | ✗ | ✓ | ✓ | ✓ |
-| Opsgenie | ✗ | ✗ | ✓ | ✓ | ✓ |
-| Teams | ✗ | ✗ | ✓ | ✓ | ✓ |
-| Webhooks | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Channel | Starter | Professional | Business | Enterprise |
+|---------|---------|--------------|----------|-----------|
+| Email | ✓ | ✓ | ✓ | ✓ |
+| Slack | Plan-based | ✓ | ✓ | ✓ |
+| Discord | Plan-based | ✓ | ✓ | ✓ |
+| Telegram | Plan-based | ✓ | ✓ | ✓ |
+| SMS | ✗ | ✓ | ✓ | ✓ |
+| PagerDuty | ✗ | ✓ | ✓ | ✓ |
+| OpsGenie | ✗ | ✓ | ✓ | ✓ |
+| Microsoft Teams | Plan-based | ✓ | ✓ | ✓ |
+| Webhooks | Plan-based | ✓ | ✓ | ✓ |
+
+**Note**: "Plan-based" means the feature availability depends on your specific plan configuration. Check **Settings > Plan** for your enabled features.
 
 ## Next Steps
 

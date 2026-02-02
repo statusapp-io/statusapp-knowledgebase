@@ -255,13 +255,19 @@ StatusApp automatically detects when performance degrades significantly:
 
 ### API Access
 
-Programmatically retrieve analytics:
+Programmatically retrieve analytics via the StatusApp API:
 
 ```bash
-curl https://api.statusapp.io/monitors/{id}/analytics \
-  -H "Authorization: Bearer sk_live_abc123" \
-  -d '{"period": "30d"}'
+# Get monitor details including recent checks
+curl https://ops.statusapp.io/api/v1/monitors/{id} \
+  -H "X-API-Key: your_api_key"
+
+# Get incidents with filtering
+curl "https://ops.statusapp.io/api/v1/incidents?status=resolved&limit=50" \
+  -H "X-API-Key: your_api_key"
 ```
+
+See the [API Reference Guide](/help/knowledge-base/api-reference-guide) for complete documentation.
 
 ## SLA Management
 

@@ -10,388 +10,608 @@ order: 8
 
 ## Overview
 
-Heartbeat monitors work in reverse - your scheduled tasks ping StatusApp when they run. If StatusApp doesn't receive a ping within the expected timeframe, it alerts you. Perfect for monitoring backups, data syncs, and other scheduled jobs.
+Heartbeat monitors work in reverse - your scheduled tasks ping StatusApp when they run. If StatusApp doesn't receive a ping within the expected timeframe (grace period), it triggers an alert. Perfect for monitoring backups, data syncs, cron jobs, and other scheduled tasks.
 
 ## How It Works
 
 **Normal Monitoring** (StatusApp pings your service):
-1. StatusApp → Ping your API endpoint
-2. API responds
-3. StatusApp sends alert if no response
+1. StatusApp → Checks your endpoint at intervals
+2. Your service responds
+3. StatusApp alerts if no response
 
 **Heartbeat Monitoring** (Your service pings StatusApp):
-1. Your scheduled job runs
-2. Your job → Pings StatusApp heartbeat URL
-3. If StatusApp doesn't hear from you on schedule, it alerts
+1. You create a CRON monitor → receive unique heartbeat URL
+2. Your scheduled job runs and pings the URL
+3. If StatusApp doesn't receive a ping within the grace period → incident created
+
+---
 
 ## Creating a Heartbeat Monitor
 
-1. Create a new monitor
-2. Select **Heartbeat/Cron** type
-3. Enter job name
-4. Set expected interval
-5. Copy heartbeat URL
-6. Add URL to your job
-7. Save monitor
+### Via Dashboard
+
+1. Go to **Monitors** > **Create Monitor**
+2. Select **CRON** as the monitor type
+3. Enter a descriptive name (e.g., "Nightly Database Backup")
+4. Set the **Grace Period** (60 seconds to 24 hours)
+5. Configure notification channels
+6. Click **Create Monitor**
+7. Copy the generated **heartbeat URL**
+
+### Via API
+
+```bash
+curl -X POST https://ops.statusapp.io/api/v1/monitors \
+  -H "X-API-Key: your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Daily Backup Job",
+    "url": "https://placeholder.local",
+    "type": "CRON",
+    "gracePeriod": 3600,
+    "notifications": [
+      {
+        "type": "EMAIL",
+        "enabled": true,
+        "config": { "emails": ["alerts@example.com"] }
+      }
+    ]
+  }'
+```
+
+The response includes a unique `heartbeatUrl` that you'll use to ping StatusApp.
+
+---
 
 ## Configuration
 
-### Monitor Name
-Descriptive name for your job:
-- "Nightly Backup"
-- "Data Sync Job"
-- "Report Generation"
-- "Cache Cleanup"
-
-### Expected Interval
-How often the job should run:
-- **Hourly**: Every 1 hour
-- **Every 6 Hours**: Twice daily
-- **Daily**: Once per day (usually with time)
-- **Weekly**: Once per week
-
 ### Grace Period
-Extra time allowed after expected run time:
-- Default: 5 minutes
-- Recommended: 5-15 minutes
-- Buffer for normal job variation
-- Prevents false alerts from minor delays
 
-**Example**:
-- Expected interval: Daily at 2:00 AM
-- Grace period: 15 minutes
-- Job runs between 1:50 AM - 2:15 AM → OK
-- Job hasn't run by 2:15 AM → Alert
+The grace period defines how long StatusApp waits for a ping before triggering an alert.
 
-## Setting Up Your Job
+| Setting | Range |
+|---------|-------|
+| Minimum | 60 seconds (1 minute) |
+| Maximum | 86400 seconds (24 hours) |
+| Default | 300 seconds (5 minutes) |
 
-### Step 1: Copy Heartbeat URL
-After creating monitor, StatusApp generates unique URL:
+**Recommended Grace Periods by Job Frequency**:
+
+| Job Frequency | Grace Period |
+|---------------|--------------|
+| Every minute | 2-5 minutes |
+| Every 5 minutes | 10-15 minutes |
+| Hourly | 1-2 hours |
+| Every 6 hours | 7-8 hours |
+| Daily | 2-6 hours |
+| Weekly | 24-48 hours |
+
+**Tip**: Set the grace period to **150-200% of your job's expected duration** to account for occasional slow runs.
+
+---
+
+## Heartbeat API Endpoints
+
+All heartbeat endpoints are available at:
 ```
-https://statusapp.io/api/v1/heartbeat/abc123xyz789
+https://ops.statusapp.io/api/v1/heartbeat/{heartbeatId}
 ```
 
-**Keep this URL secret** - treat it like a password
+The `heartbeatId` is extracted from your unique heartbeat URL.
 
-### Step 2: Add to Your Job
+### Success Signal
 
-**Bash Script**:
+Report successful job completion. This is the default ping.
+
+```http
+GET  /api/v1/heartbeat/{heartbeatId}
+POST /api/v1/heartbeat/{heartbeatId}
+HEAD /api/v1/heartbeat/{heartbeatId}
+```
+
+All HTTP methods work identically. Choose whichever is most convenient for your environment.
+
+**Optional Message** (POST only, max 10KB):
+```bash
+curl -X POST https://ops.statusapp.io/api/v1/heartbeat/{id} \
+  -d '{"message": "Processed 1,234 records in 45 seconds"}'
+```
+
+**Response**:
+```json
+{
+  "message": "OK"
+}
+```
+
+### Start Signal
+
+Indicate that a long-running job has started. Useful for tracking job duration and distinguishing between "job didn't start" vs "job is still running".
+
+```http
+GET  /api/v1/heartbeat/{heartbeatId}/start
+POST /api/v1/heartbeat/{heartbeatId}/start
+```
+
+### Fail Signal
+
+Explicitly report job failure. This immediately triggers an incident.
+
+```http
+GET  /api/v1/heartbeat/{heartbeatId}/fail
+POST /api/v1/heartbeat/{heartbeatId}/fail
+```
+
+**With Error Message**:
+```bash
+curl -X POST https://ops.statusapp.io/api/v1/heartbeat/{id}/fail \
+  -H "Content-Type: application/json" \
+  -d '{"error": "Database connection timeout after 30s"}'
+```
+
+### Log Signal
+
+Record a log message without changing monitor status. Useful for tracking progress in long-running jobs.
+
+```http
+POST /api/v1/heartbeat/{heartbeatId}/log
+Content-Type: application/json
+```
+
+**Request Body**:
+```json
+{
+  "message": "Processing batch 5 of 10..."
+}
+```
+
+---
+
+## Rate Limiting
+
+Heartbeat endpoints have a rate limit of **5 pings per minute** per monitor. This prevents accidental flooding if a script loops incorrectly.
+
+---
+
+## Integration Examples
+
+### Bash/Shell Script
+
+**Simple ping at end of job**:
 ```bash
 #!/bin/bash
 
-# Your scheduled task
-echo "Starting backup..."
-/usr/local/bin/backup.sh
+# Your job logic here
+/usr/local/bin/run-backup.sh
 
-# Check if successful
+# Ping success (using exit code)
 if [ $? -eq 0 ]; then
-  echo "Backup completed successfully"
-  # Ping StatusApp on success
-  curl -X POST https://statusapp.io/api/v1/heartbeat/abc123xyz789
+  curl -s https://ops.statusapp.io/api/v1/heartbeat/abc123
 else
-  echo "Backup failed"
-  # Optionally ping failure endpoint
-  curl -X POST https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail
+  curl -s https://ops.statusapp.io/api/v1/heartbeat/abc123/fail
+fi
+```
+
+**With start signal for long jobs**:
+```bash
+#!/bin/bash
+HEARTBEAT_URL="https://ops.statusapp.io/api/v1/heartbeat/abc123"
+
+# Signal job start
+curl -s "${HEARTBEAT_URL}/start"
+
+# Run the job
+if /usr/local/bin/backup.sh 2>/tmp/backup_error.log; then
+  # Success
+  curl -s "${HEARTBEAT_URL}"
+else
+  # Failure with error details
+  ERROR=$(cat /tmp/backup_error.log | head -c 1000)
+  curl -s -X POST "${HEARTBEAT_URL}/fail" \
+    -H "Content-Type: application/json" \
+    -d "{\"error\": \"$ERROR\"}"
   exit 1
 fi
 ```
 
-**Python Script**:
+### Crontab Entry
+
+```cron
+# Simple: backup job runs daily at 2 AM
+0 2 * * * /path/to/backup.sh && curl -s https://ops.statusapp.io/api/v1/heartbeat/abc123
+
+# With error handling
+0 2 * * * /path/to/backup.sh && curl -s https://ops.statusapp.io/api/v1/heartbeat/abc123 || curl -s https://ops.statusapp.io/api/v1/heartbeat/abc123/fail
+```
+
+### Node.js
+
+```javascript
+const HEARTBEAT_URL = 'https://ops.statusapp.io/api/v1/heartbeat/abc123';
+
+async function runScheduledJob() {
+  // Signal start
+  await fetch(`${HEARTBEAT_URL}/start`);
+
+  try {
+    // Your job logic
+    const result = await performBackup();
+
+    // Signal success with details
+    await fetch(HEARTBEAT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: `Backed up ${result.fileCount} files` })
+    });
+
+  } catch (error) {
+    // Signal failure with error
+    await fetch(`${HEARTBEAT_URL}/fail`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: error.message })
+    });
+
+    throw error;
+  }
+}
+```
+
+### Python
+
 ```python
 import requests
 import sys
-from datetime import datetime
 
-print(f"[{datetime.now()}] Starting backup job...")
+HEARTBEAT_URL = "https://ops.statusapp.io/api/v1/heartbeat/abc123"
 
-try:
-    # Your scheduled task
-    result = run_backup()
-    
-    if result['success']:
-        print("Backup completed successfully")
-        # Ping StatusApp on success
-        response = requests.post(
-            'https://statusapp.io/api/v1/heartbeat/abc123xyz789',
-            timeout=5
+def run_scheduled_job():
+    # Signal start
+    requests.get(f"{HEARTBEAT_URL}/start", timeout=10)
+
+    try:
+        # Your job logic
+        result = perform_backup()
+
+        # Signal success with message
+        requests.post(HEARTBEAT_URL,
+            json={"message": f"Backed up {result['size']} bytes"},
+            timeout=10
         )
-        print(f"Heartbeat sent: {response.status_code}")
-    else:
-        print("Backup failed")
-        # Ping failure endpoint
-        requests.post(
-            'https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail',
-            timeout=5
+
+    except Exception as e:
+        # Signal failure with error
+        requests.post(f"{HEARTBEAT_URL}/fail",
+            json={"error": str(e)},
+            timeout=10
         )
-        sys.exit(1)
-        
-except Exception as e:
-    print(f"Error during backup: {e}")
-    # Ping failure endpoint on exception
-    requests.post(
-        'https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail',
-        timeout=5
-    )
-    sys.exit(1)
+        raise
+
+if __name__ == "__main__":
+    run_scheduled_job()
 ```
 
-**Docker/Container**:
-```dockerfile
-# In your container's startup script
-your-job.sh && curl -X POST https://statusapp.io/api/v1/heartbeat/abc123xyz789
-```
+### PHP
 
-**Node.js**:
-```javascript
-const axios = require('axios');
+```php
+<?php
+$heartbeatUrl = 'https://ops.statusapp.io/api/v1/heartbeat/abc123';
 
-async function runJob() {
-  try {
-    console.log('Starting job...');
-    
-    // Your scheduled task
-    const result = await performTask();
-    
-    if (result.success) {
-      // Ping on success
-      await axios.post('https://statusapp.io/api/v1/heartbeat/abc123xyz789');
-      console.log('Heartbeat sent');
-    } else {
-      // Ping on failure
-      await axios.post('https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail');
-      process.exit(1);
+function pingHeartbeat($endpoint = '', $data = null) {
+    global $heartbeatUrl;
+    $url = $heartbeatUrl . $endpoint;
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    if ($data) {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     }
-  } catch (error) {
-    console.error('Job failed:', error);
-    // Ping on error
-    await axios.post('https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail');
-    process.exit(1);
-  }
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;
 }
 
-runJob();
+// Signal start
+pingHeartbeat('/start');
+
+try {
+    // Your job logic
+    runBackup();
+
+    // Signal success
+    pingHeartbeat('', ['message' => 'Backup completed']);
+
+} catch (Exception $e) {
+    // Signal failure
+    pingHeartbeat('/fail', ['error' => $e->getMessage()]);
+    throw $e;
+}
 ```
 
-### Step 3: Test the Job
-Before deploying to production:
-```bash
-# Run job manually to verify heartbeat works
-./backup.sh
+### Go
 
-# Check StatusApp shows it was received
-# Monitor should show "Last Ping: just now"
+```go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "net/http"
+    "time"
+)
+
+const heartbeatURL = "https://ops.statusapp.io/api/v1/heartbeat/abc123"
+
+var client = &http.Client{Timeout: 10 * time.Second}
+
+func pingHeartbeat(endpoint string, data map[string]string) error {
+    url := heartbeatURL + endpoint
+
+    if data != nil {
+        body, _ := json.Marshal(data)
+        _, err := client.Post(url, "application/json", bytes.NewBuffer(body))
+        return err
+    }
+
+    _, err := client.Get(url)
+    return err
+}
+
+func runScheduledJob() error {
+    // Signal start
+    pingHeartbeat("/start", nil)
+
+    err := performBackup()
+    if err != nil {
+        // Signal failure
+        pingHeartbeat("/fail", map[string]string{"error": err.Error()})
+        return err
+    }
+
+    // Signal success
+    pingHeartbeat("", map[string]string{"message": "Backup completed"})
+    return nil
+}
 ```
 
-## Common Use Cases
-
-### Nightly Backup
-Monitor database backup runs daily:
-
-```
-Name: Database Backup
-Interval: Daily (2:00 AM)
-Grace Period: 15 minutes
-Notifications: Email + Slack
-```
-
-### Data Sync Job
-Monitor data syncs between systems:
-
-```
-Name: Customer Data Sync
-Interval: Every 6 hours
-Grace Period: 10 minutes
-Notifications: Email + PagerDuty
-```
-
-### Report Generation
-Monitor reports are generated on schedule:
-
-```
-Name: Daily Sales Report
-Interval: Daily (6:00 AM)
-Grace Period: 30 minutes
-Notifications: Email to managers
-```
-
-### Cache Cleanup
-Monitor cleanup job runs:
-
-```
-Name: Redis Cache Cleanup
-Interval: Hourly
-Grace Period: 5 minutes
-Notifications: Slack (informational)
-```
-
-## Best Practices
-
-### 1. Always Ping on Success
-Every successful run should call the heartbeat URL:
-
-```bash
-# Good: Always ping
-command && curl -X POST $HEARTBEAT_URL
-command || curl -X POST $HEARTBEAT_URL/fail
-
-# Bad: Only on success (fails silently if job crashes)
-command && curl -X POST $HEARTBEAT_URL
-```
-
-### 2. Use Failure Endpoint Too
-Report failures separately for better alerting:
+### Docker/Container
 
 ```bash
-# On success
-curl -X POST https://statusapp.io/api/v1/heartbeat/abc123xyz789
+#!/bin/sh
+HEARTBEAT_URL="https://ops.statusapp.io/api/v1/heartbeat/abc123"
 
-# On failure  
-curl -X POST https://statusapp.io/api/v1/heartbeat/abc123xyz789/fail
-```
+# Signal start
+curl -s --max-time 10 "${HEARTBEAT_URL}/start" || true
 
-### 3. Set Realistic Intervals
-Match job schedule exactly:
-- Job runs at 2 AM → Set interval to "Daily"
-- Job runs every 6 hours → Set to "Every 6 hours"
-- Don't guess - document the actual schedule
-
-### 4. Grace Period Buffer
-Allow for job variation:
-- Short jobs (< 5 min): 5-10 min grace
-- Medium jobs (5-30 min): 15-30 min grace
-- Long jobs (> 30 min): 30-60 min grace
-
-### 5. Secure the URL
-Treat heartbeat URL like a password:
-- Keep in environment variables, not code
-- Don't log it to user-facing output
-- Don't commit to version control
-- Rotate/regenerate if exposed
-
-### 6. Add Logging
-Log heartbeat status for debugging:
-
-```bash
-#!/bin/bash
-
-HEARTBEAT_URL="https://statusapp.io/api/v1/heartbeat/abc123xyz789"
-LOG_FILE="/var/log/backup.log"
-
-{
-  echo "[$(date)] Starting backup..."
-  
-  if /usr/local/bin/backup.sh; then
-    echo "[$(date)] Backup successful, pinging heartbeat..."
-    curl -s -X POST $HEARTBEAT_URL
-    echo "[$(date)] Heartbeat sent"
-  else
-    echo "[$(date)] Backup failed, sending failure ping..."
-    curl -s -X POST $HEARTBEAT_URL/fail
-    exit 1
-  fi
-} >> $LOG_FILE 2>&1
-```
-
-## Troubleshooting
-
-### Heartbeat Not Being Received
-
-**Verify Job is Running**:
-- Check system logs or job scheduler logs
-- Confirm job didn't error out early
-- Verify cron/scheduler is enabled
-
-**Verify Heartbeat URL is Correct**:
-- Copy URL exactly from StatusApp
-- Check for typos or extra characters
-- Confirm URL includes `/api/v1/heartbeat/`
-
-**Test Heartbeat Manually**:
-```bash
-# Copy and run this to test
-curl -X POST https://statusapp.io/api/v1/heartbeat/YOUR_URL_HERE
-
-# Should see in StatusApp: "Last Ping: just now"
-```
-
-**Check Network Connectivity**:
-```bash
-# From job host, verify connectivity to StatusApp
-curl -I https://statusapp.io
-
-# Verify firewall isn't blocking outbound HTTPS
-```
-
-### Missing Heartbeats from Otherwise Good Job
-
-**Clock Skew**:
-- Job host clock might be off
-- Sync system time: `ntpd`, `systemctl set-time`, etc.
-- StatusApp expects pings within grace period
-
-**Network Issues**:
-- Job runs, but heartbeat URL can't be reached
-- Job might timeout trying to reach StatusApp
-- Add retry logic with backoff
-
-**Job Output Issues**:
-```bash
-# Bad: Job fails silently
-/usr/local/bin/backup.sh && curl $HEARTBEAT_URL
-
-# Good: Report failure explicitly  
-if /usr/local/bin/backup.sh; then
-  curl $HEARTBEAT_URL
+# Run your job
+if your_job_command; then
+    curl -s --max-time 10 "${HEARTBEAT_URL}" || true
 else
-  curl $HEARTBEAT_URL/fail
-  echo "Backup failed!" | mail admin@company.com
-  exit 1
+    curl -s --max-time 10 -X POST "${HEARTBEAT_URL}/fail" \
+        -H "Content-Type: application/json" \
+        -d '{"error": "Job failed"}' || true
+    exit 1
 fi
 ```
 
-### Too Many False Positives
+### Kubernetes CronJob
 
-**Increase Grace Period**:
-- Job taking longer than expected?
-- Increase grace period in monitor settings
-- Add buffer for network latency
-
-**Check Job Logs**:
-- Sometimes job runs but heartbeat fails
-- Review job logs for errors
-- Add explicit logging around heartbeat call
-
-## Monitoring Multiple Jobs
-
-**Separate Monitor for Each Job**:
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-job
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: your-backup-image
+            env:
+            - name: HEARTBEAT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-secrets
+                  key: heartbeat-url
+            command:
+            - /bin/sh
+            - -c
+            - |
+              curl -s "${HEARTBEAT_URL}/start" || true
+              if /app/backup.sh; then
+                curl -s "${HEARTBEAT_URL}"
+              else
+                curl -s -X POST "${HEARTBEAT_URL}/fail" \
+                  -d '{"error": "Backup failed"}'
+                exit 1
+              fi
+          restartPolicy: OnFailure
 ```
-Monitor 1: Database Backup (2 AM)
-Monitor 2: Data Sync (Every 6 hours)
-Monitor 3: Report Generation (6 AM)
-Monitor 4: Cache Cleanup (Hourly)
+
+### AWS Lambda
+
+```python
+import urllib.request
+import json
+
+HEARTBEAT_URL = 'https://ops.statusapp.io/api/v1/heartbeat/abc123'
+
+def ping_heartbeat(endpoint='', data=None):
+    url = f"{HEARTBEAT_URL}{endpoint}"
+    if data:
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(data).encode(),
+            headers={'Content-Type': 'application/json'}
+        )
+    else:
+        req = urllib.request.Request(url)
+    urllib.request.urlopen(req, timeout=10)
+
+def lambda_handler(event, context):
+    ping_heartbeat('/start')
+
+    try:
+        # Your Lambda logic
+        result = process_data(event)
+
+        ping_heartbeat('', {'message': f'Processed {len(result)} items'})
+        return {'statusCode': 200, 'body': 'Success'}
+
+    except Exception as e:
+        ping_heartbeat('/fail', {'error': str(e)})
+        raise
 ```
 
-Each job has its own unique heartbeat URL.
+---
 
-## Integration with Other Monitoring
+## Best Practices
 
-Combine with other monitors:
+### 1. Use Start Signals for Long Jobs
 
+For jobs that take more than a few seconds:
+```bash
+curl -s "${HEARTBEAT_URL}/start"
+# ... long running job ...
+curl -s "${HEARTBEAT_URL}"
 ```
-Heartbeat Monitor: Backup runs on schedule
-└─ Confirms job executes
 
-Database Health Monitor: Database is accessible
-└─ Confirms backup can complete
+This helps distinguish:
+- Job didn't start (scheduler issue)
+- Job started but is still running
+- Job started but crashed mid-execution
 
-Email Notification: Backup completion
-└─ Confirms results are used
+### 2. Include Error Details
 
-Together: Complete backup monitoring
+When signaling failure, include context:
+```bash
+curl -s -X POST "${HEARTBEAT_URL}/fail" \
+  -H "Content-Type: application/json" \
+  -d "{\"error\": \"Exit code $?. Log: $(tail -c 500 /var/log/job.log)\"}"
 ```
+
+### 3. Set Appropriate Grace Periods
+
+Calculate: `grace_period = (expected_duration * 1.5) + start_delay_buffer`
+
+- Too short → false positives from slow runs
+- Too long → delayed detection of missed jobs
+
+### 4. Handle Network Failures Gracefully
+
+Don't let heartbeat failures crash your job:
+```bash
+# Ping but don't fail if ping fails
+curl -s --max-time 10 "${HEARTBEAT_URL}" || true
+```
+
+### 5. Secure Your Heartbeat URL
+
+- Store in environment variables, not code
+- Don't log it to user-facing outputs
+- Don't commit to version control
+- Rotate if exposed
+
+### 6. Test Before Production
+
+1. Create the monitor
+2. Run your script manually
+3. Verify StatusApp shows the ping
+4. Test failure scenario with `/fail` endpoint
+
+---
+
+## Troubleshooting
+
+### No Pings Received
+
+**Check**:
+- Heartbeat URL is correct (no typos)
+- Job host can reach `ops.statusapp.io` (firewall rules)
+- Script is actually running (check cron/scheduler logs)
+- curl/wget is installed
+
+**Test connectivity**:
+```bash
+curl -v https://ops.statusapp.io/api/v1/heartbeat/your_id
+```
+
+### Rate Limited
+
+Response: `{"error": "Rate limited"}` (HTTP 200)
+
+Your script is pinging more than 5 times per minute. Check for:
+- Loops in your script
+- Multiple instances running simultaneously
+- Overly aggressive retry logic
+
+### False Positives
+
+Getting alerts when jobs are running successfully:
+- Increase the grace period
+- Ensure ping happens **after** job completion
+- Check for script exits before the ping line
+- Add logging around the ping call
+
+### Ping Not Updating Status
+
+Verify:
+- Monitor type is `CRON` (not WEBSITE or API)
+- Heartbeat ID in URL matches your monitor
+- Monitor is not paused
+
+---
+
+## Common Use Cases
+
+### Database Backup
+```
+Name: Nightly Database Backup
+Frequency: Daily at 2 AM
+Grace Period: 2 hours (for large databases)
+```
+
+### ETL Job
+```
+Name: Data Warehouse ETL
+Frequency: Every 6 hours
+Grace Period: 1 hour
+```
+
+### Report Generation
+```
+Name: Daily Sales Report
+Frequency: Daily at 6 AM
+Grace Period: 30 minutes
+```
+
+### Cache Cleanup
+```
+Name: Redis Cache Cleanup
+Frequency: Hourly
+Grace Period: 10 minutes
+```
+
+### Queue Worker Health
+```
+Name: Queue Worker Heartbeat
+Frequency: Every 5 minutes
+Grace Period: 10 minutes
+```
+
+---
 
 ## Next Steps
 
-- **[Notifications](/help/knowledge-base/notification-channels-overview)** - Set up alerts when jobs miss
-- **[Analytics](/help/knowledge-base/understanding-analytics)** - Track job execution patterns
-- **[HTTP Monitors](/help/knowledge-base/http-website-monitors)** - Monitor services that jobs interact with
+- **[Monitor Types Overview](/help/knowledge-base/monitor-types-overview)** - Compare all monitor types
+- **[Notification Channels](/help/knowledge-base/notification-channels-overview)** - Configure alerts
+- **[API Reference](/help/knowledge-base/api-reference-guide)** - Complete heartbeat API docs
+- **[Incidents](/help/knowledge-base/incident-lifecycle)** - Understanding incident handling

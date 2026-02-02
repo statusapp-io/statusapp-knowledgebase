@@ -98,13 +98,17 @@ Use this guide to resolve frequent issues with monitors, notifications, incident
 ## API
 
 ### 401/403 Unauthorized
-- Use the latest API token; tokens are workspace-scoped
-- Check if token has been revoked
-- Send token in the `Authorization: Bearer <token>` header
+- Use the latest API key; keys are account-scoped
+- Check if the API key has been revoked
+- Send the key in the `X-API-Key` header OR `Authorization: Bearer <key>` header
+- Verify the API key has the required permissions
 
-### Rate limit errors
-- Reduce request frequency or add client-side backoff
+### Rate Limit Errors (429)
+- Check your plan's rate limit (Starter: 1,000/hr, Professional: 5,000/hr, Business: 10,000/hr, Enterprise: 100,000/hr)
+- Implement exponential backoff in your client
+- Check `X-RateLimit-Remaining` header for current quota
 - Batch requests where possible
+- Consider upgrading if consistently hitting limits
 
 ## Billing/Plan Limits
 

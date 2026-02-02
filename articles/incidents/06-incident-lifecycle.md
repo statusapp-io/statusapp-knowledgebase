@@ -34,12 +34,14 @@ StatusApp automatically creates incidents when monitors fail:
 5. Subscribers notified via email
 
 **Automatic Incident Data**:
-- Incident ID (unique identifier)
-- Start time (when first failure detected)
-- Affected monitor (which service)
-- Severity (auto-determined based on impact)
-- Affected regions (which locations affected)
-- Check failure details (status codes, errors, times)
+- Incident Number (unique identifier like INC-00123)
+- Start time (`startedAt`) - when first failure detected
+- Affected monitor - which service failed
+- Severity - auto-determined based on impact (low, medium, high, critical)
+- Affected regions - array of regions where failure occurred
+- Check statistics - `checksFailed` and `checksTotal` counts
+- Status - `open` or `resolved`
+- Incident logs - detailed check results with status codes, response times, errors
 
 **Grace Period**:
 - Configure monitors to wait before creating incident
@@ -79,9 +81,9 @@ Create incidents for issues not automatically detected:
 
 Subscribers automatically notified.
 
-## Incident Statuses
+## Incident Statuses (UpdateType)
 
-Incidents move through statuses as you progress toward resolution:
+Incidents move through statuses as you progress toward resolution. StatusApp uses these status types:
 
 ### Investigating
 
@@ -119,6 +121,18 @@ Incidents move through statuses as you progress toward resolution:
 
 **Example update**: "We've deployed the fix. Monitoring for stability over the next 10 minutes."
 
+### Update
+
+**Meaning**: Progress update without status change
+
+**When to use**:
+- Providing intermediate progress
+- Sharing additional information
+- No significant status change yet
+- Keeping stakeholders informed during long incidents
+
+**Example update**: "Our team is still working on the fix. Currently testing in staging environment."
+
 ### Resolved
 
 **Meaning**: Issue fixed, service fully operational
@@ -130,6 +144,26 @@ Incidents move through statuses as you progress toward resolution:
 - Ready to close incident
 
 **Example update**: "The incident has been resolved. All services are operating normally."
+
+## Root Cause Categories
+
+When resolving incidents, you can categorize the root cause for better analytics:
+
+| Category | Description |
+|----------|-------------|
+| **DNS_FAILURE** | DNS resolution issues |
+| **NETWORK_TIMEOUT** | Network connectivity or timeout issues |
+| **SERVER_ERROR** | Web server errors (5xx responses) |
+| **APPLICATION_ERROR** | Application code or logic errors |
+| **DATABASE_ISSUE** | Database connection, query, or performance issues |
+| **SSL_CERTIFICATE** | SSL/TLS certificate problems |
+| **CONFIGURATION_ERROR** | Misconfiguration of services or infrastructure |
+| **DEPLOYMENT_ISSUE** | Problems introduced during deployment |
+| **THIRD_PARTY_SERVICE** | External service or dependency failure |
+| **INFRASTRUCTURE** | Cloud provider or infrastructure issues |
+| **DDOS_ATTACK** | Distributed denial of service attack |
+| **MAINTENANCE** | Planned or unplanned maintenance |
+| **UNKNOWN** | Root cause not determined |
 
 ## Incident Workflow
 
