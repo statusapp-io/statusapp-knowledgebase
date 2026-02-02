@@ -211,7 +211,9 @@ Content-Type: application/json
 
 | Type | Description | Required Fields |
 |------|-------------|-----------------|
-| `WEBSITE` | HTTP/HTTPS website monitoring | `url` |
+| `WEBSITE` | Website availability monitoring | `url` |
+| `HTTP` | HTTP endpoint monitoring | `url` |
+| `HTTPS` | HTTPS endpoint monitoring | `url` |
 | `API` | REST API endpoint monitoring | `url`, optionally `httpMethod`, `requestHeaders`, `requestBody` |
 | `CRON` | Heartbeat/scheduled job monitoring | `url` (auto-generated heartbeatUrl) |
 | `PING` | ICMP ping monitoring | `url` (hostname/IP) |
@@ -219,6 +221,8 @@ Content-Type: application/json
 | `DNS` | DNS record monitoring | `url`, `dnsRecord`, optionally `expectedIp` |
 | `SSL_CERT` | SSL certificate expiry monitoring | `url` (HTTPS URL) |
 | `DOMAIN` | Domain expiry & health monitoring | `url` (domain name) |
+| `GRAPHQL` | GraphQL API monitoring | `url`, `graphqlQuery` |
+| `SERVER` | Server resource monitoring | Requires agent installation |
 
 **Full Schema**:
 
@@ -319,11 +323,23 @@ POST /api/v1/monitors/{monitorId}/pause
 
 Toggles the monitor's paused state. When paused, no checks are performed.
 
+**Note**: This endpoint toggles the current state - no request body is needed. Call it once to pause, call again to resume.
+
 **Response**:
 ```json
 {
-  "id": "clxyz123...",
-  "isPaused": true
+  "success": true,
+  "isPaused": true,
+  "message": "Monitor paused"
+}
+```
+
+Or when resuming:
+```json
+{
+  "success": true,
+  "isPaused": false,
+  "message": "Monitor resumed"
 }
 ```
 
@@ -1082,6 +1098,53 @@ DELETE /api/v1/team/members/{memberId}
 GET /api/v1/team/invitations
 ```
 
+**Response**:
+```json
+{
+  "invitations": [
+    {
+      "id": "inv_abc123",
+      "email": "pending@example.com",
+      "role": "MEMBER",
+      "status": "PENDING",
+      "createdAt": "2025-01-20T00:00:00Z",
+      "expiresAt": "2025-01-27T00:00:00Z"
+    }
+  ]
+}
+```
+
+### Send Invitation
+
+```http
+POST /api/v1/team/invitations
+Content-Type: application/json
+```
+
+**Request Body**:
+```json
+{
+  "email": "newmember@example.com",
+  "role": "MEMBER"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `email` | string | **Required**. Email address to invite |
+| `role` | string | **Required**. Role to assign: `ADMIN`, `MEMBER`, or `VIEWER` |
+
+**Response**:
+```json
+{
+  "id": "inv_xyz789",
+  "email": "newmember@example.com",
+  "role": "MEMBER",
+  "status": "PENDING",
+  "createdAt": "2025-01-21T10:30:00Z"
+}
+```
+
 ---
 
 ## Account API
@@ -1329,6 +1392,39 @@ GET /api/v1/server/version
   "apiVersion": "v1"
 }
 ```
+
+### Server Metrics (Agent Push)
+
+```http
+POST /api/v1/server/metrics
+X-Server-Key: your-server-key
+Content-Type: application/json
+```
+
+**Note**: This endpoint is used by StatusApp server monitoring agents to push metrics. It is NOT authenticated via API key - it uses a separate `X-Server-Key` header obtained when setting up server monitoring.
+
+**Request Body** (from agent):
+```json
+{
+  "cpuUsagePercent": 45.2,
+  "memoryUsedPercent": 68.5,
+  "diskUsagePercent": 55.0,
+  "hostname": "prod-server-01",
+  "osVersion": "Ubuntu 22.04",
+  "uptime": 864000
+}
+```
+
+**Response**:
+```json
+{
+  "success": true,
+  "status": "UP",
+  "alerts": []
+}
+```
+
+For setting up server monitoring, see the [Server Monitoring documentation](/help/knowledge-base/server-monitoring).
 
 ---
 
@@ -1740,9 +1836,10 @@ try {
 
 Need help with the API?
 
-- **Documentation**: Full API docs at https://ops.statusapp.io/docs/api
+- **Interactive Docs**: Full API documentation at https://ops.statusapp.io/api/v1/docs
 - **Support**: Email support@statusapp.io
 - **Status**: Check API status at https://status.statusapp.io
+- **Main Docs**: https://docs.statusapp.io/api/v1
 
 ---
 
